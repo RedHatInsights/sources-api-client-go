@@ -1,0 +1,2285 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: support@redhat.com
+  description: Sources
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Sources
+  version: 3.0.0
+servers:
+- description: Production Server
+  url: https://cloud.redhat.com/{basePath}
+  variables:
+    basePath:
+      default: /api/sources/v3.0
+- description: Development Server
+  url: http://localhost:{port}/{basePath}
+  variables:
+    port:
+      default: "3000"
+    basePath:
+      default: /api/sources/v3.0
+security:
+- UserSecurity: []
+paths:
+  /application_authentications:
+    get:
+      description: Returns an array of ApplicationAuthentication objects
+      operationId: listAllApplicationAuthentications
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationAuthenticationsCollection'
+          description: ApplicationAuthentications collection
+      summary: List ApplicationAuthentications
+    post:
+      description: Creates a ApplicationAuthentication object
+      operationId: createApplicationAuthentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationAuthentication'
+        description: ApplicationAuthentication attributes to create
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationAuthentication'
+          description: ApplicationAuthentication creation successful
+      summary: Create a new ApplicationAuthentication
+  /application_authentications/{id}:
+    delete:
+      description: Deletes a ApplicationAuthentication object
+      operationId: deleteApplicationAuthentication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ApplicationAuthentication deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Delete an existing ApplicationAuthentication
+    get:
+      description: Returns a ApplicationAuthentication object
+      operationId: showApplicationAuthentication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationAuthentication'
+          description: ApplicationAuthentication info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing ApplicationAuthentication
+    patch:
+      description: Updates a ApplicationAuthentication object
+      operationId: updateApplicationAuthentication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationAuthentication'
+        description: ApplicationAuthentication attributes to update
+        required: true
+      responses:
+        "204":
+          description: Updated, no content
+        "400":
+          description: Bad request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Update an existing ApplicationAuthentication
+  /application_types:
+    get:
+      description: Returns an array of ApplicationType objects
+      operationId: listApplicationTypes
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationTypesCollection'
+          description: ApplicationTypes collection
+      summary: List ApplicationTypes
+  /application_types/{id}:
+    get:
+      description: Returns a ApplicationType object
+      operationId: showApplicationType
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationType'
+          description: ApplicationType info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing ApplicationType
+  /application_types/{id}/sources:
+    get:
+      description: Returns an array of Source objects
+      operationId: listApplicationTypeSources
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourcesCollection'
+          description: Sources collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List Sources for ApplicationType
+  /applications:
+    get:
+      description: Returns an array of Application objects
+      operationId: listApplications
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationsCollection'
+          description: Applications collection
+      summary: List Applications
+    post:
+      description: Creates a Application object
+      operationId: createApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+        description: Application attributes to create
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: Application creation successful
+      summary: Create a new Application
+  /applications/{id}:
+    delete:
+      description: Deletes a Application object
+      operationId: deleteApplication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Application deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Delete an existing Application
+    get:
+      description: Returns a Application object
+      operationId: showApplication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: Application info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing Application
+    patch:
+      description: Updates a Application object
+      operationId: updateApplication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+        description: Application attributes to update
+        required: true
+      responses:
+        "204":
+          description: Updated, no content
+        "400":
+          description: Bad request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Update an existing Application
+  /applications/{id}/authentications:
+    get:
+      description: Returns an array of Authentication objects
+      operationId: listApplicationAuthentications
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationsCollection'
+          description: Authentications collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List Authentications for Application
+  /authentications:
+    get:
+      description: Returns an array of Authentication objects
+      operationId: listAuthentications
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationsCollection'
+          description: Authentications collection
+      summary: List Authentications
+    post:
+      description: Creates a Authentication object
+      operationId: createAuthentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authentication'
+        description: Authentication attributes to create
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authentication'
+          description: Authentication creation successful
+      summary: Create a new Authentication
+  /authentications/{id}:
+    delete:
+      description: Deletes a Authentication object
+      operationId: deleteAuthentication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Authentication deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Delete an existing Authentication
+    get:
+      description: Returns a Authentication object
+      operationId: showAuthentication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authentication'
+          description: Authentication info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing Authentication
+    patch:
+      description: Updates a Authentication object
+      operationId: updateAuthentication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authentication'
+        description: Authentication attributes to update
+        required: true
+      responses:
+        "204":
+          description: Updated, no content
+        "400":
+          description: Bad request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Update an existing Authentication
+  /endpoints:
+    get:
+      description: Returns an array of Endpoint objects
+      operationId: listEndpoints
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndpointsCollection'
+          description: Endpoints collection
+      summary: List Endpoints
+    post:
+      description: Creates a Endpoint object
+      operationId: createEndpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Endpoint'
+        description: Endpoint attributes to create
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+          description: Endpoint creation successful
+      summary: Create a new Endpoint
+  /endpoints/{id}:
+    delete:
+      description: Deletes a Endpoint object
+      operationId: deleteEndpoint
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Endpoint deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Delete an existing Endpoint
+    get:
+      description: Returns a Endpoint object
+      operationId: showEndpoint
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+          description: Endpoint info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing Endpoint
+    patch:
+      description: Updates a Endpoint object
+      operationId: updateEndpoint
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Endpoint'
+        description: Endpoint attributes to update
+        required: true
+      responses:
+        "204":
+          description: Updated, no content
+        "400":
+          description: Bad request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Update an existing Endpoint
+  /endpoints/{id}/authentications:
+    get:
+      description: Returns an array of Authentication objects
+      operationId: listEndpointAuthentications
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationsCollection'
+          description: Authentications collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List Authentications for Endpoint
+  /graphql:
+    post:
+      description: Performs a GraphQL Query
+      operationId: postGraphQL
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+        description: GraphQL Query Request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+          description: GraphQL Query Response
+      summary: Perform a GraphQL Query
+  /openapi.json:
+    get:
+      operationId: getDocumentation
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: The API document for this version of the API
+      summary: Return this API document in JSON format
+  /source_types:
+    get:
+      description: Returns an array of SourceType objects
+      operationId: listSourceTypes
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceTypesCollection'
+          description: SourceTypes collection
+      summary: List SourceTypes
+  /source_types/{id}:
+    get:
+      description: Returns a SourceType object
+      operationId: showSourceType
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceType'
+          description: SourceType info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing SourceType
+  /source_types/{id}/sources:
+    get:
+      description: Returns an array of Source objects
+      operationId: listSourceTypeSources
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourcesCollection'
+          description: Sources collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List Sources for SourceType
+  /sources:
+    get:
+      description: Returns an array of Source objects
+      operationId: listSources
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourcesCollection'
+          description: Sources collection
+      summary: List Sources
+    post:
+      description: Creates a Source object
+      operationId: createSource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Source'
+        description: Source attributes to create
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Source'
+          description: Source creation successful
+      summary: Create a new Source
+  /sources/{id}:
+    delete:
+      description: Deletes a Source object
+      operationId: deleteSource
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Source deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Delete an existing Source
+    get:
+      description: Returns a Source object
+      operationId: showSource
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Source'
+          description: Source info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing Source
+    patch:
+      description: Updates a Source object
+      operationId: updateSource
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Source'
+        description: Source attributes to update
+        required: true
+      responses:
+        "204":
+          description: Updated, no content
+        "400":
+          description: Bad request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Update an existing Source
+  /sources/{id}/application_types:
+    get:
+      description: Returns an array of ApplicationType objects
+      operationId: listSourceApplicationTypes
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationTypesCollection'
+          description: ApplicationTypes collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List ApplicationTypes for Source
+  /sources/{id}/applications:
+    get:
+      description: Returns an array of Application objects
+      operationId: listSourceApplications
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationsCollection'
+          description: Applications collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List Applications for Source
+  /sources/{id}/check_availability:
+    post:
+      description: Checks Availability of a Source
+      operationId: checkAvailabilitySource
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "202":
+          description: Availability Check Accepted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Checks Availability of a Source
+  /sources/{id}/endpoints:
+    get:
+      description: Returns an array of Endpoint objects
+      operationId: listSourceEndpoints
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndpointsCollection'
+          description: Endpoints collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List Endpoints for Source
+components:
+  parameters:
+    ID:
+      description: ID of the resource
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema:
+        pattern: ^\d+$
+        type: string
+      style: simple
+    QueryFilter:
+      description: Filter for querying collections.
+      explode: true
+      in: query
+      name: filter
+      required: false
+      schema:
+        type: object
+      style: deepObject
+    QueryLimit:
+      description: The numbers of items to return per page.
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 100
+        maximum: 1000
+        minimum: 1
+        type: integer
+      style: form
+    QueryOffset:
+      description: The number of items to skip before starting to collect the result
+        set.
+      explode: true
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 0
+        minimum: 0
+        type: integer
+      style: form
+    QuerySortBy:
+      description: The list of attribute and order to sort the result set by.
+      explode: true
+      in: query
+      name: sort_by
+      required: false
+      schema:
+        type: object
+      style: deepObject
+  schemas:
+    Application:
+      additionalProperties: false
+      example:
+        availability_status: availability_status
+        availability_status_error: availability_status_error
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        last_available_at: 2000-01-23T04:56:07.000+00:00
+        application_type_id: application_type_id
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        source_id: source_id
+        last_checked_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        application_type_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        availability_status:
+          type: string
+        availability_status_error:
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        last_available_at:
+          format: date-time
+          type: string
+        last_checked_at:
+          format: date-time
+          type: string
+        source_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    ApplicationAuthentication:
+      additionalProperties: false
+      example:
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        application_id: application_id
+        authentication_id: authentication_id
+      properties:
+        application_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        authentication_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    ApplicationAuthenticationsCollection:
+      example:
+        data:
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          application_id: application_id
+          authentication_id: authentication_id
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          application_id: application_id
+          authentication_id: authentication_id
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/ApplicationAuthentication'
+          type: array
+      type: object
+    ApplicationType:
+      additionalProperties: false
+      example:
+        supported_source_types: '{}'
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        dependent_applications: '{}'
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        display_name: display_name
+        supported_authentication_types: '{}'
+      properties:
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        dependent_applications:
+          type: object
+        display_name:
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        name:
+          type: string
+        supported_authentication_types:
+          type: object
+        supported_source_types:
+          type: object
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    ApplicationTypesCollection:
+      example:
+        data:
+        - supported_source_types: '{}'
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          dependent_applications: '{}'
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          display_name: display_name
+          supported_authentication_types: '{}'
+        - supported_source_types: '{}'
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          dependent_applications: '{}'
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          display_name: display_name
+          supported_authentication_types: '{}'
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/ApplicationType'
+          type: array
+      type: object
+    ApplicationsCollection:
+      example:
+        data:
+        - availability_status: availability_status
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          application_type_id: application_type_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          source_id: source_id
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        - availability_status: availability_status
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          application_type_id: application_type_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          source_id: source_id
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/Application'
+          type: array
+      type: object
+    Authentication:
+      additionalProperties: false
+      example:
+        last_available_at: 2000-01-23T04:56:07.000+00:00
+        resource_type: Endpoint
+        authtype: openshift_default
+        last_checked_at: 2000-01-23T04:56:07.000+00:00
+        availability_status: availability_status
+        password: password
+        availability_status_error: availability_status_error
+        extra:
+          azure:
+            tenant_id: tenant_id
+        name: OpenShift default
+        resource_id: resource_id
+        id: id
+        status_details: status_details
+        status: valid
+        username: user@example.com
+      properties:
+        authtype:
+          example: openshift_default
+          readOnly: true
+          type: string
+        availability_status:
+          type: string
+        availability_status_error:
+          type: string
+        extra:
+          $ref: '#/components/schemas/Authentication_extra'
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        last_available_at:
+          format: date-time
+          type: string
+        last_checked_at:
+          format: date-time
+          type: string
+        name:
+          example: OpenShift default
+          type: string
+        password:
+          type: string
+        resource_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        resource_type:
+          example: Endpoint
+          type: string
+        status:
+          example: valid
+          type: string
+        status_details:
+          type: string
+        username:
+          example: user@example.com
+          type: string
+      type: object
+    AuthenticationsCollection:
+      example:
+        data:
+        - last_available_at: 2000-01-23T04:56:07.000+00:00
+          resource_type: Endpoint
+          authtype: openshift_default
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          password: password
+          availability_status_error: availability_status_error
+          extra:
+            azure:
+              tenant_id: tenant_id
+          name: OpenShift default
+          resource_id: resource_id
+          id: id
+          status_details: status_details
+          status: valid
+          username: user@example.com
+        - last_available_at: 2000-01-23T04:56:07.000+00:00
+          resource_type: Endpoint
+          authtype: openshift_default
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          password: password
+          availability_status_error: availability_status_error
+          extra:
+            azure:
+              tenant_id: tenant_id
+          name: OpenShift default
+          resource_id: resource_id
+          id: id
+          status_details: status_details
+          status: valid
+          username: user@example.com
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/Authentication'
+          type: array
+      type: object
+    CollectionLinks:
+      example:
+        next: next
+        last: last
+        prev: prev
+        first: first
+      properties:
+        first:
+          type: string
+        last:
+          type: string
+        next:
+          type: string
+        prev:
+          type: string
+      type: object
+    CollectionMetadata:
+      example:
+        offset: 1
+        count: 0
+        limit: 6
+      properties:
+        count:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+      type: object
+    Endpoint:
+      additionalProperties: false
+      example:
+        role: default
+        scheme: https
+        certificate_authority: certificate_authority
+        last_available_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        last_checked_at: 2000-01-23T04:56:07.000+00:00
+        availability_status: availability_status
+        path: /api/v1
+        default: true
+        availability_status_error: availability_status_error
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        verify_ssl: true
+        port: 80
+        host: www.example.com
+        receptor_node: receptor_node
+        id: id
+        source_id: source_id
+      properties:
+        availability_status:
+          type: string
+        availability_status_error:
+          type: string
+        certificate_authority:
+          description: Optional X.509 Certificate Authority
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        default:
+          type: boolean
+        host:
+          description: URI host component
+          example: www.example.com
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        last_available_at:
+          format: date-time
+          type: string
+        last_checked_at:
+          format: date-time
+          type: string
+        path:
+          description: URI path component
+          example: /api/v1
+          type: string
+        port:
+          description: URI port component
+          example: 80
+          type: integer
+        receptor_node:
+          description: Identifier of a receptor node
+          type: string
+        role:
+          example: default
+          type: string
+        scheme:
+          description: URI scheme component
+          example: https
+          type: string
+        source_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+        verify_ssl:
+          description: Should SSL be verified
+          example: true
+          type: boolean
+      type: object
+    EndpointsCollection:
+      example:
+        data:
+        - role: default
+          scheme: https
+          certificate_authority: certificate_authority
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          path: /api/v1
+          default: true
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          verify_ssl: true
+          port: 80
+          host: www.example.com
+          receptor_node: receptor_node
+          id: id
+          source_id: source_id
+        - role: default
+          scheme: https
+          certificate_authority: certificate_authority
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          path: /api/v1
+          default: true
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          verify_ssl: true
+          port: 80
+          host: www.example.com
+          receptor_node: receptor_node
+          id: id
+          source_id: source_id
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/Endpoint'
+          type: array
+      type: object
+    ErrorNotFound:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/ErrorNotFound_errors'
+          type: array
+      type: object
+    GraphQLRequest:
+      example:
+        variables: '{}'
+        query: '{}'
+        operationName: operationName
+      properties:
+        query:
+          default: '{}'
+          description: The GraphQL query
+          type: string
+        operationName:
+          default: ""
+          description: If the Query contains several named operations, the operationName
+            controls which one should be executed
+          type: string
+        variables:
+          description: Optional Query variables
+          nullable: true
+          type: object
+      required:
+      - query
+      type: object
+    GraphQLResponse:
+      example:
+        data: '{}'
+        errors:
+        - '{}'
+        - '{}'
+      properties:
+        data:
+          description: Results from the GraphQL query
+          type: object
+        errors:
+          description: Errors resulting from the GraphQL query
+          items:
+            type: object
+          type: array
+      type: object
+    ID:
+      description: ID of the resource
+      pattern: ^\d+$
+      readOnly: true
+      type: string
+    Source:
+      additionalProperties: false
+      example:
+        availability_status: availability_status
+        uid: uid
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        imported: imported
+        last_available_at: 2000-01-23T04:56:07.000+00:00
+        name: Sample Provider
+        created_at: 2000-01-23T04:56:07.000+00:00
+        source_ref: source_ref
+        source_type_id: source_type_id
+        id: id
+        version: 6.5.0
+        last_checked_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        availability_status:
+          type: string
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        imported:
+          type: string
+        last_available_at:
+          format: date-time
+          type: string
+        last_checked_at:
+          format: date-time
+          type: string
+        name:
+          example: Sample Provider
+          title: Name
+          type: string
+        source_ref:
+          type: string
+        source_type_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        uid:
+          readOnly: true
+          title: Unique ID of the inventory source installation
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+        version:
+          example: 6.5.0
+          readOnly: true
+          title: Version
+          type: string
+      type: object
+    SourceType:
+      additionalProperties: false
+      example:
+        icon_url: icon_url
+        schema: schema
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        vendor: Red Hat
+        name: openshift
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        product_name: OpenShift
+      properties:
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        icon_url:
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        name:
+          example: openshift
+          type: string
+        product_name:
+          example: OpenShift
+          type: string
+        schema:
+          type: string
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+        vendor:
+          example: Red Hat
+          type: string
+      type: object
+    SourceTypesCollection:
+      example:
+        data:
+        - icon_url: icon_url
+          schema: schema
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          vendor: Red Hat
+          name: openshift
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          product_name: OpenShift
+        - icon_url: icon_url
+          schema: schema
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          vendor: Red Hat
+          name: openshift
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          product_name: OpenShift
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/SourceType'
+          type: array
+      type: object
+    SourcesCollection:
+      example:
+        data:
+        - availability_status: availability_status
+          uid: uid
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          name: Sample Provider
+          created_at: 2000-01-23T04:56:07.000+00:00
+          source_ref: source_ref
+          source_type_id: source_type_id
+          id: id
+          version: 6.5.0
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        - availability_status: availability_status
+          uid: uid
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          name: Sample Provider
+          created_at: 2000-01-23T04:56:07.000+00:00
+          source_ref: source_ref
+          source_type_id: source_type_id
+          id: id
+          version: 6.5.0
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/Source'
+          type: array
+      type: object
+    Authentication_extra_azure:
+      example:
+        tenant_id: tenant_id
+      properties:
+        tenant_id:
+          type: string
+      type: object
+    Authentication_extra:
+      example:
+        azure:
+          tenant_id: tenant_id
+      properties:
+        azure:
+          $ref: '#/components/schemas/Authentication_extra_azure'
+      type: object
+    ErrorNotFound_errors:
+      properties:
+        status:
+          example: "404"
+          type: string
+        detail:
+          example: Record not found
+          type: string
+      type: object
+  securitySchemes:
+    UserSecurity:
+      scheme: basic
+      type: http
