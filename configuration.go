@@ -106,7 +106,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://cloud.redhat.com/{basePath}",
+				URL: "https://cloud.stage.redhat.com/{basePath}",
 				Description: "Production Server",
 				Variables: map[string]ServerVariable{
 					"basePath": ServerVariable{

@@ -68,7 +68,7 @@ ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://cloud.redhat.com//api/sources/v3.0*
+All URIs are relative to *https://cloud.stage.redhat.com//api/sources/v3.0*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

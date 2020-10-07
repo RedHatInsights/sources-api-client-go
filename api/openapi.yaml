@@ -10,7 +10,7 @@ info:
   version: 3.0.0
 servers:
 - description: Production Server
-  url: https://cloud.redhat.com/{basePath}
+  url: https://cloud.stage.redhat.com/{basePath}
   variables:
     basePath:
       default: /api/sources/v3.0
