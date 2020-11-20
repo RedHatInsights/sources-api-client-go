@@ -23,6 +23,7 @@ type Application struct {
 	AvailabilityStatus *string `json:"availability_status,omitempty"`
 	AvailabilityStatusError *string `json:"availability_status_error,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
+	Extra *map[string]interface{} `json:"extra,omitempty"`
 	// ID of the resource
 	Id *string `json:"id,omitempty"`
 	LastAvailableAt *time.Time `json:"last_available_at,omitempty"`
@@ -175,6 +176,38 @@ func (o *Application) HasCreatedAt() bool {
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
 func (o *Application) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
+}
+
+// GetExtra returns the Extra field value if set, zero value otherwise.
+func (o *Application) GetExtra() map[string]interface{} {
+	if o == nil || o.Extra == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return *o.Extra
+}
+
+// GetExtraOk returns a tuple with the Extra field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Application) GetExtraOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Extra == nil {
+		return nil, false
+	}
+	return o.Extra, true
+}
+
+// HasExtra returns a boolean if a field has been set.
+func (o *Application) HasExtra() bool {
+	if o != nil && o.Extra != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetExtra gets a reference to the given map[string]interface{} and assigns it to the Extra field.
+func (o *Application) SetExtra(v map[string]interface{}) {
+	o.Extra = &v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -350,6 +383,9 @@ func (o Application) MarshalJSON() ([]byte, error) {
 	}
 	if o.CreatedAt != nil {
 		toSerialize["created_at"] = o.CreatedAt
+	}
+	if o.Extra != nil {
+		toSerialize["extra"] = o.Extra
 	}
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
