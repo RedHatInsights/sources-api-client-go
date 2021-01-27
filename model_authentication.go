@@ -3,7 +3,7 @@
  *
  * Sources
  *
- * API version: 3.0.0
+ * API version: 3.1.0
  * Contact: support@redhat.com
  */
 
@@ -31,6 +31,8 @@ type Authentication struct {
 	// ID of the resource
 	ResourceId *string `json:"resource_id,omitempty"`
 	ResourceType *string `json:"resource_type,omitempty"`
+	// ID of the resource
+	SourceId *string `json:"source_id,omitempty"`
 	Status *string `json:"status,omitempty"`
 	StatusDetails *string `json:"status_details,omitempty"`
 	Username *string `json:"username,omitempty"`
@@ -405,6 +407,38 @@ func (o *Authentication) SetResourceType(v string) {
 	o.ResourceType = &v
 }
 
+// GetSourceId returns the SourceId field value if set, zero value otherwise.
+func (o *Authentication) GetSourceId() string {
+	if o == nil || o.SourceId == nil {
+		var ret string
+		return ret
+	}
+	return *o.SourceId
+}
+
+// GetSourceIdOk returns a tuple with the SourceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Authentication) GetSourceIdOk() (*string, bool) {
+	if o == nil || o.SourceId == nil {
+		return nil, false
+	}
+	return o.SourceId, true
+}
+
+// HasSourceId returns a boolean if a field has been set.
+func (o *Authentication) HasSourceId() bool {
+	if o != nil && o.SourceId != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSourceId gets a reference to the given string and assigns it to the SourceId field.
+func (o *Authentication) SetSourceId(v string) {
+	o.SourceId = &v
+}
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Authentication) GetStatus() string {
 	if o == nil || o.Status == nil {
@@ -535,6 +569,9 @@ func (o Authentication) MarshalJSON() ([]byte, error) {
 	}
 	if o.ResourceType != nil {
 		toSerialize["resource_type"] = o.ResourceType
+	}
+	if o.SourceId != nil {
+		toSerialize["source_id"] = o.SourceId
 	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status

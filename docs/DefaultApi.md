@@ -1,6 +1,6 @@
 # Catalog\DefaultApi
 
-All URIs are relative to *https://cloud.stage.redhat.com//api/sources/v3.0*
+All URIs are relative to *https://cloud.redhat.com//api/sources/v3.1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -16,8 +16,10 @@ Method | HTTP request | Description
 [**DeleteEndpoint**](DefaultApi.md#DeleteEndpoint) | **Delete** /endpoints/{id} | Delete an existing Endpoint
 [**DeleteSource**](DefaultApi.md#DeleteSource) | **Delete** /sources/{id} | Delete an existing Source
 [**GetDocumentation**](DefaultApi.md#GetDocumentation) | **Get** /openapi.json | Return this API document in JSON format
+[**ListAllAppMetaData**](DefaultApi.md#ListAllAppMetaData) | **Get** /app_meta_data | List AppMetaData
 [**ListAllApplicationAuthentications**](DefaultApi.md#ListAllApplicationAuthentications) | **Get** /application_authentications | List ApplicationAuthentications
 [**ListApplicationAuthentications**](DefaultApi.md#ListApplicationAuthentications) | **Get** /applications/{id}/authentications | List Authentications for Application
+[**ListApplicationTypeAppMetaData**](DefaultApi.md#ListApplicationTypeAppMetaData) | **Get** /application_types/{id}/app_meta_data | List AppMetaData for ApplicationType
 [**ListApplicationTypeSources**](DefaultApi.md#ListApplicationTypeSources) | **Get** /application_types/{id}/sources | List Sources for ApplicationType
 [**ListApplicationTypes**](DefaultApi.md#ListApplicationTypes) | **Get** /application_types | List ApplicationTypes
 [**ListApplications**](DefaultApi.md#ListApplications) | **Get** /applications | List Applications
@@ -26,11 +28,13 @@ Method | HTTP request | Description
 [**ListEndpoints**](DefaultApi.md#ListEndpoints) | **Get** /endpoints | List Endpoints
 [**ListSourceApplicationTypes**](DefaultApi.md#ListSourceApplicationTypes) | **Get** /sources/{id}/application_types | List ApplicationTypes for Source
 [**ListSourceApplications**](DefaultApi.md#ListSourceApplications) | **Get** /sources/{id}/applications | List Applications for Source
+[**ListSourceAuthentications**](DefaultApi.md#ListSourceAuthentications) | **Get** /sources/{id}/authentications | List Authentications for Source
 [**ListSourceEndpoints**](DefaultApi.md#ListSourceEndpoints) | **Get** /sources/{id}/endpoints | List Endpoints for Source
 [**ListSourceTypeSources**](DefaultApi.md#ListSourceTypeSources) | **Get** /source_types/{id}/sources | List Sources for SourceType
 [**ListSourceTypes**](DefaultApi.md#ListSourceTypes) | **Get** /source_types | List SourceTypes
 [**ListSources**](DefaultApi.md#ListSources) | **Get** /sources | List Sources
 [**PostGraphQL**](DefaultApi.md#PostGraphQL) | **Post** /graphql | Perform a GraphQL Query
+[**ShowAppMetaData**](DefaultApi.md#ShowAppMetaData) | **Get** /app_meta_data/{id} | Show an existing AppMetaData
 [**ShowApplication**](DefaultApi.md#ShowApplication) | **Get** /applications/{id} | Show an existing Application
 [**ShowApplicationAuthentication**](DefaultApi.md#ShowApplicationAuthentication) | **Get** /application_authentications/{id} | Show an existing ApplicationAuthentication
 [**ShowApplicationType**](DefaultApi.md#ShowApplicationType) | **Get** /application_types/{id} | Show an existing ApplicationType
@@ -72,7 +76,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.CheckAvailabilitySource(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.CheckAvailabilitySource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -135,12 +139,12 @@ import (
 )
 
 func main() {
-    application := openapiclient.Application{ApplicationTypeId: "ApplicationTypeId_example", AvailabilityStatus: "AvailabilityStatus_example", AvailabilityStatusError: "AvailabilityStatusError_example", CreatedAt: "TODO", Id: "Id_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", SourceId: "SourceId_example", UpdatedAt: "TODO"} // Application | Application attributes to create
+    application := *openapiclient.NewApplication() // Application | Application attributes to create
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.CreateApplication(context.Background()).Application(application).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.CreateApplication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -201,12 +205,12 @@ import (
 )
 
 func main() {
-    applicationAuthentication := openapiclient.ApplicationAuthentication{ApplicationId: "ApplicationId_example", AuthenticationId: "AuthenticationId_example", CreatedAt: "TODO", Id: "Id_example", UpdatedAt: "TODO"} // ApplicationAuthentication | ApplicationAuthentication attributes to create
+    applicationAuthentication := *openapiclient.NewApplicationAuthentication() // ApplicationAuthentication | ApplicationAuthentication attributes to create
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.CreateApplicationAuthentication(context.Background()).ApplicationAuthentication(applicationAuthentication).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.CreateApplicationAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -267,12 +271,12 @@ import (
 )
 
 func main() {
-    authentication := openapiclient.Authentication{Authtype: "Authtype_example", AvailabilityStatus: "AvailabilityStatus_example", AvailabilityStatusError: "AvailabilityStatusError_example", Extra: openapiclient.Authentication_extra{Azure: openapiclient.Authentication_extra_azure{TenantId: "TenantId_example"}}, Id: "Id_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", Name: "Name_example", Password: "Password_example", ResourceId: "ResourceId_example", ResourceType: "ResourceType_example", Status: "Status_example", StatusDetails: "StatusDetails_example", Username: "Username_example"} // Authentication | Authentication attributes to create
+    authentication := *openapiclient.NewAuthentication() // Authentication | Authentication attributes to create
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.CreateAuthentication(context.Background()).Authentication(authentication).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.CreateAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -333,12 +337,12 @@ import (
 )
 
 func main() {
-    endpoint := openapiclient.Endpoint{AvailabilityStatus: "AvailabilityStatus_example", AvailabilityStatusError: "AvailabilityStatusError_example", CertificateAuthority: "CertificateAuthority_example", CreatedAt: "TODO", Default: false, Host: "Host_example", Id: "Id_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", Path: "Path_example", Port: 123, ReceptorNode: "ReceptorNode_example", Role: "Role_example", Scheme: "Scheme_example", SourceId: "SourceId_example", UpdatedAt: "TODO", VerifySsl: true} // Endpoint | Endpoint attributes to create
+    endpoint := *openapiclient.NewEndpoint() // Endpoint | Endpoint attributes to create
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.CreateEndpoint(context.Background()).Endpoint(endpoint).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.CreateEndpoint``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -399,12 +403,12 @@ import (
 )
 
 func main() {
-    source := openapiclient.Source{AvailabilityStatus: "AvailabilityStatus_example", CreatedAt: "TODO", Id: "Id_example", Imported: "Imported_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", Name: "Name_example", SourceRef: "SourceRef_example", SourceTypeId: "SourceTypeId_example", Uid: "Uid_example", UpdatedAt: "TODO", Version: "Version_example"} // Source | Source attributes to create
+    source := *openapiclient.NewSource() // Source | Source attributes to create
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.CreateSource(context.Background()).Source(source).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.CreateSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -470,7 +474,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.DeleteApplication(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.DeleteApplication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -538,7 +542,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.DeleteApplicationAuthentication(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.DeleteApplicationAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -606,7 +610,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.DeleteAuthentication(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.DeleteAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -674,7 +678,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.DeleteEndpoint(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.DeleteEndpoint``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -742,7 +746,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.DeleteSource(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.DeleteSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -807,7 +811,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.GetDocumentation(context.Background()).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.GetDocumentation``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -828,6 +832,78 @@ Other parameters are passed through a pointer to a apiGetDocumentationRequest st
 ### Return type
 
 **map[string]interface{}**
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListAllAppMetaData
+
+> AppMetaDatumCollection ListAllAppMetaData(ctx).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+
+List AppMetaData
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
+    sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.ListAllAppMetaData(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+    if err.Error() != "" {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListAllAppMetaData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListAllAppMetaData`: AppMetaDatumCollection
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.ListAllAppMetaData`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListAllAppMetaDataRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **limit** | **int32** | The numbers of items to return per page. | [default to 100]
+ **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
+
+### Return type
+
+[**AppMetaDatumCollection**](AppMetaDatumCollection.md)
 
 ### Authorization
 
@@ -864,15 +940,15 @@ import (
 )
 
 func main() {
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListAllApplicationAuthentications(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListAllApplicationAuthentications``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -894,8 +970,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -937,15 +1013,15 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListApplicationAuthentications(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListApplicationAuthentications``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -972,12 +1048,90 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
 [**AuthenticationsCollection**](AuthenticationsCollection.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListApplicationTypeAppMetaData
+
+> AppMetaDatumCollection ListApplicationTypeAppMetaData(ctx, id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+
+List AppMetaData for ApplicationType
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | ID of the resource
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
+    sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.ListApplicationTypeAppMetaData(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+    if err.Error() != "" {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListApplicationTypeAppMetaData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListApplicationTypeAppMetaData`: AppMetaDatumCollection
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.ListApplicationTypeAppMetaData`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | ID of the resource | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListApplicationTypeAppMetaDataRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **limit** | **int32** | The numbers of items to return per page. | [default to 100]
+ **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
+
+### Return type
+
+[**AppMetaDatumCollection**](AppMetaDatumCollection.md)
 
 ### Authorization
 
@@ -1015,15 +1169,15 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListApplicationTypeSources(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListApplicationTypeSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1050,8 +1204,8 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1092,15 +1246,15 @@ import (
 )
 
 func main() {
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListApplicationTypes(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListApplicationTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1122,8 +1276,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1164,15 +1318,15 @@ import (
 )
 
 func main() {
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListApplications(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListApplications``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1194,8 +1348,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1236,15 +1390,15 @@ import (
 )
 
 func main() {
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListAuthentications(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListAuthentications``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1266,8 +1420,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1309,15 +1463,15 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListEndpointAuthentications(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListEndpointAuthentications``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1344,8 +1498,8 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1386,15 +1540,15 @@ import (
 )
 
 func main() {
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListEndpoints(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListEndpoints``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1416,8 +1570,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1459,15 +1613,15 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListSourceApplicationTypes(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListSourceApplicationTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1494,8 +1648,8 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1537,15 +1691,15 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListSourceApplications(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListSourceApplications``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1572,12 +1726,90 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
 [**ApplicationsCollection**](ApplicationsCollection.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListSourceAuthentications
+
+> AuthenticationsCollection ListSourceAuthentications(ctx, id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+
+List Authentications for Source
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | ID of the resource
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
+    sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.ListSourceAuthentications(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+    if err.Error() != "" {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListSourceAuthentications``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListSourceAuthentications`: AuthenticationsCollection
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.ListSourceAuthentications`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | ID of the resource | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListSourceAuthenticationsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **limit** | **int32** | The numbers of items to return per page. | [default to 100]
+ **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
+
+### Return type
+
+[**AuthenticationsCollection**](AuthenticationsCollection.md)
 
 ### Authorization
 
@@ -1615,15 +1847,15 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListSourceEndpoints(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListSourceEndpoints``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1650,8 +1882,8 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1693,15 +1925,15 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListSourceTypeSources(context.Background(), id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListSourceTypeSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1728,8 +1960,8 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1770,15 +2002,15 @@ import (
 )
 
 func main() {
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListSourceTypes(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListSourceTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1800,8 +2032,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1842,15 +2074,15 @@ import (
 )
 
 func main() {
-    limit := 987 // int32 | The numbers of items to return per page. (optional) (default to 100)
-    offset := 987 // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
+    limit := int32(56) // int32 | The numbers of items to return per page. (optional) (default to 100)
+    offset := int32(56) // int32 | The number of items to skip before starting to collect the result set. (optional) (default to 0)
     filter := TODO // map[string]interface{} | Filter for querying collections. (optional)
     sortBy := TODO // map[string]interface{} | The list of attribute and order to sort the result set by. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ListSources(context.Background()).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1872,8 +2104,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int32** | The numbers of items to return per page. | [default to 100]
  **offset** | **int32** | The number of items to skip before starting to collect the result set. | [default to 0]
- **filter** | [**map[string]interface{}**](.md) | Filter for querying collections. | 
- **sortBy** | [**map[string]interface{}**](.md) | The list of attribute and order to sort the result set by. | 
+ **filter** | [**map[string]interface{}**](map[string]interface{}.md) | Filter for querying collections. | 
+ **sortBy** | [**map[string]interface{}**](map[string]interface{}.md) | The list of attribute and order to sort the result set by. | 
 
 ### Return type
 
@@ -1914,12 +2146,12 @@ import (
 )
 
 func main() {
-    graphQLRequest := openapiclient.GraphQLRequest{Query: "Query_example", OperationName: "OperationName_example", Variables: 123} // GraphQLRequest | GraphQL Query Request
+    graphQLRequest := *openapiclient.NewGraphQLRequest("Query_example") // GraphQLRequest | GraphQL Query Request
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.PostGraphQL(context.Background()).GraphQLRequest(graphQLRequest).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.PostGraphQL``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -1959,6 +2191,76 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## ShowAppMetaData
+
+> AppMetaDatum ShowAppMetaData(ctx, id).Execute()
+
+Show an existing AppMetaData
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | ID of the resource
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.ShowAppMetaData(context.Background(), id).Execute()
+    if err.Error() != "" {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowAppMetaData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ShowAppMetaData`: AppMetaDatum
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.ShowAppMetaData`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | ID of the resource | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiShowAppMetaDataRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**AppMetaDatum**](AppMetaDatum.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## ShowApplication
 
 > Application ShowApplication(ctx, id).Execute()
@@ -1985,7 +2287,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ShowApplication(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowApplication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2055,7 +2357,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ShowApplicationAuthentication(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowApplicationAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2125,7 +2427,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ShowApplicationType(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowApplicationType``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2195,7 +2497,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ShowAuthentication(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2265,7 +2567,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ShowEndpoint(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowEndpoint``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2335,7 +2637,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ShowSource(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2405,7 +2707,7 @@ func main() {
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.ShowSourceType(context.Background(), id).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowSourceType``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2471,12 +2773,12 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    application := openapiclient.Application{ApplicationTypeId: "ApplicationTypeId_example", AvailabilityStatus: "AvailabilityStatus_example", AvailabilityStatusError: "AvailabilityStatusError_example", CreatedAt: "TODO", Id: "Id_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", SourceId: "SourceId_example", UpdatedAt: "TODO"} // Application | Application attributes to update
+    application := *openapiclient.NewApplication() // Application | Application attributes to update
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.UpdateApplication(context.Background(), id).Application(application).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.UpdateApplication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2541,12 +2843,12 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    applicationAuthentication := openapiclient.ApplicationAuthentication{ApplicationId: "ApplicationId_example", AuthenticationId: "AuthenticationId_example", CreatedAt: "TODO", Id: "Id_example", UpdatedAt: "TODO"} // ApplicationAuthentication | ApplicationAuthentication attributes to update
+    applicationAuthentication := *openapiclient.NewApplicationAuthentication() // ApplicationAuthentication | ApplicationAuthentication attributes to update
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.UpdateApplicationAuthentication(context.Background(), id).ApplicationAuthentication(applicationAuthentication).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.UpdateApplicationAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2611,12 +2913,12 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    authentication := openapiclient.Authentication{Authtype: "Authtype_example", AvailabilityStatus: "AvailabilityStatus_example", AvailabilityStatusError: "AvailabilityStatusError_example", Extra: openapiclient.Authentication_extra{Azure: openapiclient.Authentication_extra_azure{TenantId: "TenantId_example"}}, Id: "Id_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", Name: "Name_example", Password: "Password_example", ResourceId: "ResourceId_example", ResourceType: "ResourceType_example", Status: "Status_example", StatusDetails: "StatusDetails_example", Username: "Username_example"} // Authentication | Authentication attributes to update
+    authentication := *openapiclient.NewAuthentication() // Authentication | Authentication attributes to update
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.UpdateAuthentication(context.Background(), id).Authentication(authentication).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.UpdateAuthentication``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2681,12 +2983,12 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    endpoint := openapiclient.Endpoint{AvailabilityStatus: "AvailabilityStatus_example", AvailabilityStatusError: "AvailabilityStatusError_example", CertificateAuthority: "CertificateAuthority_example", CreatedAt: "TODO", Default: false, Host: "Host_example", Id: "Id_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", Path: "Path_example", Port: 123, ReceptorNode: "ReceptorNode_example", Role: "Role_example", Scheme: "Scheme_example", SourceId: "SourceId_example", UpdatedAt: "TODO", VerifySsl: true} // Endpoint | Endpoint attributes to update
+    endpoint := *openapiclient.NewEndpoint() // Endpoint | Endpoint attributes to update
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.UpdateEndpoint(context.Background(), id).Endpoint(endpoint).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.UpdateEndpoint``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
@@ -2751,12 +3053,12 @@ import (
 
 func main() {
     id := "id_example" // string | ID of the resource
-    source := openapiclient.Source{AvailabilityStatus: "AvailabilityStatus_example", CreatedAt: "TODO", Id: "Id_example", Imported: "Imported_example", LastAvailableAt: "TODO", LastCheckedAt: "TODO", Name: "Name_example", SourceRef: "SourceRef_example", SourceTypeId: "SourceTypeId_example", Uid: "Uid_example", UpdatedAt: "TODO", Version: "Version_example"} // Source | Source attributes to update
+    source := *openapiclient.NewSource() // Source | Source attributes to update
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
     resp, r, err := api_client.DefaultApi.UpdateSource(context.Background(), id).Source(source).Execute()
-    if err != nil {
+    if err.Error() != "" {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.UpdateSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }

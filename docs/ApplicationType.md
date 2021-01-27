@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CreatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 **DependentApplications** | Pointer to **map[string]interface{}** |  | [optional] 
 **DisplayName** | Pointer to **string** |  | [optional] 
 **Id** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
 **SupportedAuthenticationTypes** | Pointer to **map[string]interface{}** |  | [optional] 
 **SupportedSourceTypes** | Pointer to **map[string]interface{}** |  | [optional] 
-**UpdatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 
 ## Methods
 

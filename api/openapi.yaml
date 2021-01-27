@@ -7,20 +7,20 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Sources
-  version: 3.0.0
+  version: 3.1.0
 servers:
 - description: Production Server
-  url: https://cloud.stage.redhat.com/{basePath}
+  url: https://cloud.redhat.com/{basePath}
   variables:
     basePath:
-      default: /api/sources/v3.0
+      default: /api/sources/v3.1
 - description: Development Server
   url: http://localhost:{port}/{basePath}
   variables:
     port:
       default: "3000"
     basePath:
-      default: /api/sources/v3.0
+      default: /api/sources/v3.1
 security:
 - UserSecurity: []
 paths:
@@ -321,6 +321,72 @@ paths:
                 $ref: '#/components/schemas/ErrorNotFound'
           description: Not found
       summary: List Sources for ApplicationType
+  /application_types/{id}/app_meta_data:
+    get:
+      description: Returns an array of AppMetaData objects
+      operationId: listApplicationTypeAppMetaData
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppMetaDatumCollection'
+          description: AppMetaData collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List AppMetaData for ApplicationType
   /applications:
     get:
       description: Returns an array of Application objects
@@ -1368,6 +1434,72 @@ paths:
                 $ref: '#/components/schemas/ErrorNotFound'
           description: Not found
       summary: List Applications for Source
+  /sources/{id}/authentications:
+    get:
+      description: Returns an array of Authentication objects
+      operationId: listSourceAuthentications
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationsCollection'
+          description: Authentications collection
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: List Authentications for Source
   /sources/{id}/check_availability:
     post:
       description: Checks Availability of a Source
@@ -1458,6 +1590,85 @@ paths:
                 $ref: '#/components/schemas/ErrorNotFound'
           description: Not found
       summary: List Endpoints for Source
+  /app_meta_data:
+    get:
+      description: Returns an array of AppMetaData objects
+      operationId: listAllAppMetaData
+      parameters:
+      - description: The numbers of items to return per page.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 100
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: The number of items to skip before starting to collect the result
+          set.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: Filter for querying collections.
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      - description: The list of attribute and order to sort the result set by.
+        explode: true
+        in: query
+        name: sort_by
+        required: false
+        schema:
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppMetaDatumCollection'
+          description: AppMetaData collection
+      summary: List AppMetaData
+  /app_meta_data/{id}:
+    get:
+      description: Returns a AppMetaData object
+      operationId: showAppMetaData
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppMetaDatum'
+          description: AppMetaData info
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorNotFound'
+          description: Not found
+      summary: Show an existing AppMetaData
 components:
   parameters:
     ID:
@@ -1519,6 +1730,7 @@ components:
         availability_status: availability_status
         availability_status_error: availability_status_error
         updated_at: 2000-01-23T04:56:07.000+00:00
+        extra: '{}'
         last_available_at: 2000-01-23T04:56:07.000+00:00
         application_type_id: application_type_id
         created_at: 2000-01-23T04:56:07.000+00:00
@@ -1539,6 +1751,8 @@ components:
           format: date-time
           readOnly: true
           type: string
+        extra:
+          type: object
         id:
           description: ID of the resource
           pattern: ^\d+$
@@ -1699,12 +1913,100 @@ components:
             $ref: '#/components/schemas/ApplicationType'
           type: array
       type: object
+    AppMetaData:
+      additionalProperties: false
+      properties:
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        application_type_id:
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        name:
+          type: string
+        payload:
+          type: object
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    AppMetaDatum:
+      additionalProperties: false
+      example:
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        payload: '{}'
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        application_type_id: application_type_id
+        id: id
+      properties:
+        created_at:
+          format: date-time
+          readOnly: true
+          type: string
+        application_type_id:
+          type: string
+        id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
+        name:
+          type: string
+        payload:
+          type: object
+        updated_at:
+          format: date-time
+          readOnly: true
+          type: string
+      type: object
+    AppMetaDatumCollection:
+      example:
+        data:
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          payload: '{}'
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          application_type_id: application_type_id
+          id: id
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          payload: '{}'
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          application_type_id: application_type_id
+          id: id
+        meta:
+          offset: 1
+          count: 0
+          limit: 6
+        links:
+          next: next
+          last: last
+          prev: prev
+          first: first
+      properties:
+        meta:
+          $ref: '#/components/schemas/CollectionMetadata'
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+        data:
+          items:
+            $ref: '#/components/schemas/AppMetaDatum'
+          type: array
+      type: object
     ApplicationsCollection:
       example:
         data:
         - availability_status: availability_status
           availability_status_error: availability_status_error
           updated_at: 2000-01-23T04:56:07.000+00:00
+          extra: '{}'
           last_available_at: 2000-01-23T04:56:07.000+00:00
           application_type_id: application_type_id
           created_at: 2000-01-23T04:56:07.000+00:00
@@ -1714,6 +2016,7 @@ components:
         - availability_status: availability_status
           availability_status_error: availability_status_error
           updated_at: 2000-01-23T04:56:07.000+00:00
+          extra: '{}'
           last_available_at: 2000-01-23T04:56:07.000+00:00
           application_type_id: application_type_id
           created_at: 2000-01-23T04:56:07.000+00:00
@@ -1755,6 +2058,7 @@ components:
         name: OpenShift default
         resource_id: resource_id
         id: id
+        source_id: source_id
         status_details: status_details
         status: valid
         username: user@example.com
@@ -1793,6 +2097,11 @@ components:
         resource_type:
           example: Endpoint
           type: string
+        source_id:
+          description: ID of the resource
+          pattern: ^\d+$
+          readOnly: true
+          type: string
         status:
           example: valid
           type: string
@@ -1818,6 +2127,7 @@ components:
           name: OpenShift default
           resource_id: resource_id
           id: id
+          source_id: source_id
           status_details: status_details
           status: valid
           username: user@example.com
@@ -1834,6 +2144,7 @@ components:
           name: OpenShift default
           resource_id: resource_id
           id: id
+          source_id: source_id
           status_details: status_details
           status: valid
           username: user@example.com

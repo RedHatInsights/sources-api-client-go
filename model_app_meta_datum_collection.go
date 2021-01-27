@@ -15,32 +15,32 @@ import (
 	"encoding/json"
 )
 
-// EndpointsCollection struct for EndpointsCollection
-type EndpointsCollection struct {
+// AppMetaDatumCollection struct for AppMetaDatumCollection
+type AppMetaDatumCollection struct {
 	Meta *CollectionMetadata `json:"meta,omitempty"`
 	Links *CollectionLinks `json:"links,omitempty"`
-	Data *[]Endpoint `json:"data,omitempty"`
+	Data *[]AppMetaDatum `json:"data,omitempty"`
 }
 
-// NewEndpointsCollection instantiates a new EndpointsCollection object
+// NewAppMetaDatumCollection instantiates a new AppMetaDatumCollection object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEndpointsCollection() *EndpointsCollection {
-	this := EndpointsCollection{}
+func NewAppMetaDatumCollection() *AppMetaDatumCollection {
+	this := AppMetaDatumCollection{}
 	return &this
 }
 
-// NewEndpointsCollectionWithDefaults instantiates a new EndpointsCollection object
+// NewAppMetaDatumCollectionWithDefaults instantiates a new AppMetaDatumCollection object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewEndpointsCollectionWithDefaults() *EndpointsCollection {
-	this := EndpointsCollection{}
+func NewAppMetaDatumCollectionWithDefaults() *AppMetaDatumCollection {
+	this := AppMetaDatumCollection{}
 	return &this
 }
 
 // GetMeta returns the Meta field value if set, zero value otherwise.
-func (o *EndpointsCollection) GetMeta() CollectionMetadata {
+func (o *AppMetaDatumCollection) GetMeta() CollectionMetadata {
 	if o == nil || o.Meta == nil {
 		var ret CollectionMetadata
 		return ret
@@ -50,7 +50,7 @@ func (o *EndpointsCollection) GetMeta() CollectionMetadata {
 
 // GetMetaOk returns a tuple with the Meta field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EndpointsCollection) GetMetaOk() (*CollectionMetadata, bool) {
+func (o *AppMetaDatumCollection) GetMetaOk() (*CollectionMetadata, bool) {
 	if o == nil || o.Meta == nil {
 		return nil, false
 	}
@@ -58,7 +58,7 @@ func (o *EndpointsCollection) GetMetaOk() (*CollectionMetadata, bool) {
 }
 
 // HasMeta returns a boolean if a field has been set.
-func (o *EndpointsCollection) HasMeta() bool {
+func (o *AppMetaDatumCollection) HasMeta() bool {
 	if o != nil && o.Meta != nil {
 		return true
 	}
@@ -67,12 +67,12 @@ func (o *EndpointsCollection) HasMeta() bool {
 }
 
 // SetMeta gets a reference to the given CollectionMetadata and assigns it to the Meta field.
-func (o *EndpointsCollection) SetMeta(v CollectionMetadata) {
+func (o *AppMetaDatumCollection) SetMeta(v CollectionMetadata) {
 	o.Meta = &v
 }
 
 // GetLinks returns the Links field value if set, zero value otherwise.
-func (o *EndpointsCollection) GetLinks() CollectionLinks {
+func (o *AppMetaDatumCollection) GetLinks() CollectionLinks {
 	if o == nil || o.Links == nil {
 		var ret CollectionLinks
 		return ret
@@ -82,7 +82,7 @@ func (o *EndpointsCollection) GetLinks() CollectionLinks {
 
 // GetLinksOk returns a tuple with the Links field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EndpointsCollection) GetLinksOk() (*CollectionLinks, bool) {
+func (o *AppMetaDatumCollection) GetLinksOk() (*CollectionLinks, bool) {
 	if o == nil || o.Links == nil {
 		return nil, false
 	}
@@ -90,7 +90,7 @@ func (o *EndpointsCollection) GetLinksOk() (*CollectionLinks, bool) {
 }
 
 // HasLinks returns a boolean if a field has been set.
-func (o *EndpointsCollection) HasLinks() bool {
+func (o *AppMetaDatumCollection) HasLinks() bool {
 	if o != nil && o.Links != nil {
 		return true
 	}
@@ -99,14 +99,14 @@ func (o *EndpointsCollection) HasLinks() bool {
 }
 
 // SetLinks gets a reference to the given CollectionLinks and assigns it to the Links field.
-func (o *EndpointsCollection) SetLinks(v CollectionLinks) {
+func (o *AppMetaDatumCollection) SetLinks(v CollectionLinks) {
 	o.Links = &v
 }
 
 // GetData returns the Data field value if set, zero value otherwise.
-func (o *EndpointsCollection) GetData() []Endpoint {
+func (o *AppMetaDatumCollection) GetData() []AppMetaDatum {
 	if o == nil || o.Data == nil {
-		var ret []Endpoint
+		var ret []AppMetaDatum
 		return ret
 	}
 	return *o.Data
@@ -114,7 +114,7 @@ func (o *EndpointsCollection) GetData() []Endpoint {
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EndpointsCollection) GetDataOk() (*[]Endpoint, bool) {
+func (o *AppMetaDatumCollection) GetDataOk() (*[]AppMetaDatum, bool) {
 	if o == nil || o.Data == nil {
 		return nil, false
 	}
@@ -122,7 +122,7 @@ func (o *EndpointsCollection) GetDataOk() (*[]Endpoint, bool) {
 }
 
 // HasData returns a boolean if a field has been set.
-func (o *EndpointsCollection) HasData() bool {
+func (o *AppMetaDatumCollection) HasData() bool {
 	if o != nil && o.Data != nil {
 		return true
 	}
@@ -130,12 +130,12 @@ func (o *EndpointsCollection) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given []Endpoint and assigns it to the Data field.
-func (o *EndpointsCollection) SetData(v []Endpoint) {
+// SetData gets a reference to the given []AppMetaDatum and assigns it to the Data field.
+func (o *AppMetaDatumCollection) SetData(v []AppMetaDatum) {
 	o.Data = &v
 }
 
-func (o EndpointsCollection) MarshalJSON() ([]byte, error) {
+func (o AppMetaDatumCollection) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Meta != nil {
 		toSerialize["meta"] = o.Meta
@@ -149,38 +149,38 @@ func (o EndpointsCollection) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableEndpointsCollection struct {
-	value *EndpointsCollection
+type NullableAppMetaDatumCollection struct {
+	value *AppMetaDatumCollection
 	isSet bool
 }
 
-func (v NullableEndpointsCollection) Get() *EndpointsCollection {
+func (v NullableAppMetaDatumCollection) Get() *AppMetaDatumCollection {
 	return v.value
 }
 
-func (v *NullableEndpointsCollection) Set(val *EndpointsCollection) {
+func (v *NullableAppMetaDatumCollection) Set(val *AppMetaDatumCollection) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableEndpointsCollection) IsSet() bool {
+func (v NullableAppMetaDatumCollection) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableEndpointsCollection) Unset() {
+func (v *NullableAppMetaDatumCollection) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableEndpointsCollection(val *EndpointsCollection) *NullableEndpointsCollection {
-	return &NullableEndpointsCollection{value: val, isSet: true}
+func NewNullableAppMetaDatumCollection(val *AppMetaDatumCollection) *NullableAppMetaDatumCollection {
+	return &NullableAppMetaDatumCollection{value: val, isSet: true}
 }
 
-func (v NullableEndpointsCollection) MarshalJSON() ([]byte, error) {
+func (v NullableAppMetaDatumCollection) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableEndpointsCollection) UnmarshalJSON(src []byte) error {
+func (v *NullableAppMetaDatumCollection) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

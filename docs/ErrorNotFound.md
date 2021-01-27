@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Errors** | Pointer to [**[]ErrorNotFoundErrors**](ErrorNotFound_errors.md) |  | [optional] 
+**Errors** | Pointer to [**[]ErrorNotFoundErrors**](ErrorNotFoundErrors.md) |  | [optional] 
 
 ## Methods
 

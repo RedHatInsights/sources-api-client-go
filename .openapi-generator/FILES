@@ -5,6 +5,9 @@ api/openapi.yaml
 api_default.go
 client.go
 configuration.go
+docs/AppMetaData.md
+docs/AppMetaDatum.md
+docs/AppMetaDatumCollection.md
 docs/Application.md
 docs/ApplicationAuthentication.md
 docs/ApplicationAuthenticationsCollection.md
@@ -31,6 +34,9 @@ docs/SourcesCollection.md
 git_push.sh
 go.mod
 go.sum
+model_app_meta_data.go
+model_app_meta_datum.go
+model_app_meta_datum_collection.go
 model_application.go
 model_application_authentication.go
 model_application_authentications_collection.go

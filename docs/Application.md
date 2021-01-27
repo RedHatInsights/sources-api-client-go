@@ -7,12 +7,13 @@ Name | Type | Description | Notes
 **ApplicationTypeId** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **AvailabilityStatus** | Pointer to **string** |  | [optional] 
 **AvailabilityStatusError** | Pointer to **string** |  | [optional] 
-**CreatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
+**Extra** | Pointer to **map[string]interface{}** |  | [optional] 
 **Id** | Pointer to **string** | ID of the resource | [optional] [readonly] 
-**LastAvailableAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
-**LastCheckedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**LastAvailableAt** | Pointer to **time.Time** |  | [optional] 
+**LastCheckedAt** | Pointer to **time.Time** |  | [optional] 
 **SourceId** | Pointer to **string** | ID of the resource | [optional] [readonly] 
-**UpdatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 
 ## Methods
 
@@ -132,6 +133,31 @@ SetCreatedAt sets CreatedAt field to given value.
 `func (o *Application) HasCreatedAt() bool`
 
 HasCreatedAt returns a boolean if a field has been set.
+
+### GetExtra
+
+`func (o *Application) GetExtra() map[string]interface{}`
+
+GetExtra returns the Extra field if non-nil, zero value otherwise.
+
+### GetExtraOk
+
+`func (o *Application) GetExtraOk() (*map[string]interface{}, bool)`
+
+GetExtraOk returns a tuple with the Extra field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExtra
+
+`func (o *Application) SetExtra(v map[string]interface{})`
+
+SetExtra sets Extra field to given value.
+
+### HasExtra
+
+`func (o *Application) HasExtra() bool`
+
+HasExtra returns a boolean if a field has been set.
 
 ### GetId
 

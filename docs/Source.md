@@ -5,16 +5,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AvailabilityStatus** | Pointer to **string** |  | [optional] 
-**CreatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 **Id** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **Imported** | Pointer to **string** |  | [optional] 
-**LastAvailableAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
-**LastCheckedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**LastAvailableAt** | Pointer to **time.Time** |  | [optional] 
+**LastCheckedAt** | Pointer to **time.Time** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **SourceRef** | Pointer to **string** |  | [optional] 
 **SourceTypeId** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **Uid** | Pointer to **string** |  | [optional] [readonly] 
-**UpdatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 **Version** | Pointer to **string** |  | [optional] [readonly] 
 
 ## Methods

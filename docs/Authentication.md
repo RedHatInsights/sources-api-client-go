@@ -9,12 +9,13 @@ Name | Type | Description | Notes
 **AvailabilityStatusError** | Pointer to **string** |  | [optional] 
 **Extra** | Pointer to [**AuthenticationExtra**](Authentication_extra.md) |  | [optional] 
 **Id** | Pointer to **string** | ID of the resource | [optional] [readonly] 
-**LastAvailableAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
-**LastCheckedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**LastAvailableAt** | Pointer to **time.Time** |  | [optional] 
+**LastCheckedAt** | Pointer to **time.Time** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **Password** | Pointer to **string** |  | [optional] 
 **ResourceId** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **ResourceType** | Pointer to **string** |  | [optional] 
+**SourceId** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **Status** | Pointer to **string** |  | [optional] 
 **StatusDetails** | Pointer to **string** |  | [optional] 
 **Username** | Pointer to **string** |  | [optional] 
@@ -312,6 +313,31 @@ SetResourceType sets ResourceType field to given value.
 `func (o *Authentication) HasResourceType() bool`
 
 HasResourceType returns a boolean if a field has been set.
+
+### GetSourceId
+
+`func (o *Authentication) GetSourceId() string`
+
+GetSourceId returns the SourceId field if non-nil, zero value otherwise.
+
+### GetSourceIdOk
+
+`func (o *Authentication) GetSourceIdOk() (*string, bool)`
+
+GetSourceIdOk returns a tuple with the SourceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSourceId
+
+`func (o *Authentication) SetSourceId(v string)`
+
+SetSourceId sets SourceId field to given value.
+
+### HasSourceId
+
+`func (o *Authentication) HasSourceId() bool`
+
+HasSourceId returns a boolean if a field has been set.
 
 ### GetStatus
 

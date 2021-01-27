@@ -3,7 +3,7 @@
  *
  * Sources
  *
- * API version: 3.0.0
+ * API version: 3.1.0
  * Contact: support@redhat.com
  */
 
@@ -106,12 +106,12 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://cloud.stage.redhat.com/{basePath}",
+				URL: "https://cloud.redhat.com/{basePath}",
 				Description: "Production Server",
 				Variables: map[string]ServerVariable{
 					"basePath": ServerVariable{
 						Description: "No description provided",
-						DefaultValue: "/api/sources/v3.0",
+						DefaultValue: "/api/sources/v3.1",
 					},
 				},
 			},
@@ -125,7 +125,7 @@ func NewConfiguration() *Configuration {
 					},
 					"basePath": ServerVariable{
 						Description: "No description provided",
-						DefaultValue: "/api/sources/v3.0",
+						DefaultValue: "/api/sources/v3.1",
 					},
 				},
 			},

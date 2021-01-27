@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ApplicationId** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **AuthenticationId** | Pointer to **string** | ID of the resource | [optional] [readonly] 
-**CreatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 **Id** | Pointer to **string** | ID of the resource | [optional] [readonly] 
-**UpdatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 
 ## Methods
 

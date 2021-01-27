@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CreatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 **IconUrl** | Pointer to **string** |  | [optional] 
 **Id** | Pointer to **string** | ID of the resource | [optional] [readonly] 
 **Name** | Pointer to **string** |  | [optional] 
 **ProductName** | Pointer to **string** |  | [optional] 
 **Schema** | Pointer to **string** |  | [optional] 
-**UpdatedAt** | Pointer to [**time.Time**](time.Time.md) |  | [optional] [readonly] 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 **Vendor** | Pointer to **string** |  | [optional] 
 
 ## Methods

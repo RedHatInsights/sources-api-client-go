@@ -3,7 +3,7 @@
  *
  * Sources
  *
- * API version: 3.0.0
+ * API version: 3.1.0
  * Contact: support@redhat.com
  */
 
@@ -12,6 +12,7 @@
 package sourcesapi
 
 import (
+	"bytes"
 	_context "context"
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
@@ -34,7 +35,7 @@ type ApiCheckAvailabilitySourceRequest struct {
 }
 
 
-func (r ApiCheckAvailabilitySourceRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiCheckAvailabilitySourceRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.CheckAvailabilitySourceExecute(r)
 }
 
@@ -56,18 +57,20 @@ func (a *DefaultApiService) CheckAvailabilitySource(ctx _context.Context, id str
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) CheckAvailabilitySourceExecute(r ApiCheckAvailabilitySourceRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) CheckAvailabilitySourceExecute(r ApiCheckAvailabilitySourceRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.CheckAvailabilitySource")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources/{id}/check_availability"
@@ -96,18 +99,22 @@ func (a *DefaultApiService) CheckAvailabilitySourceExecute(r ApiCheckAvailabilit
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -127,7 +134,7 @@ func (a *DefaultApiService) CheckAvailabilitySourceExecute(r ApiCheckAvailabilit
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiCreateApplicationRequest struct {
@@ -141,7 +148,7 @@ func (r ApiCreateApplicationRequest) Application(application Application) ApiCre
 	return r
 }
 
-func (r ApiCreateApplicationRequest) Execute() (Application, *_nethttp.Response, error) {
+func (r ApiCreateApplicationRequest) Execute() (Application, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.CreateApplicationExecute(r)
 }
 
@@ -162,19 +169,21 @@ func (a *DefaultApiService) CreateApplication(ctx _context.Context) ApiCreateApp
  * Execute executes the request
  * @return Application
  */
-func (a *DefaultApiService) CreateApplicationExecute(r ApiCreateApplicationRequest) (Application, *_nethttp.Response, error) {
+func (a *DefaultApiService) CreateApplicationExecute(r ApiCreateApplicationRequest) (Application, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Application
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.CreateApplication")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/applications"
@@ -183,7 +192,8 @@ func (a *DefaultApiService) CreateApplicationExecute(r ApiCreateApplicationReque
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.application == nil {
-		return localVarReturnValue, nil, reportError("application is required and must be specified")
+		executionError.error = "application is required and must be specified"
+		return localVarReturnValue, nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -207,18 +217,22 @@ func (a *DefaultApiService) CreateApplicationExecute(r ApiCreateApplicationReque
 	localVarPostBody = r.application
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -238,7 +252,7 @@ func (a *DefaultApiService) CreateApplicationExecute(r ApiCreateApplicationReque
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiCreateApplicationAuthenticationRequest struct {
@@ -252,7 +266,7 @@ func (r ApiCreateApplicationAuthenticationRequest) ApplicationAuthentication(app
 	return r
 }
 
-func (r ApiCreateApplicationAuthenticationRequest) Execute() (ApplicationAuthentication, *_nethttp.Response, error) {
+func (r ApiCreateApplicationAuthenticationRequest) Execute() (ApplicationAuthentication, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.CreateApplicationAuthenticationExecute(r)
 }
 
@@ -273,19 +287,21 @@ func (a *DefaultApiService) CreateApplicationAuthentication(ctx _context.Context
  * Execute executes the request
  * @return ApplicationAuthentication
  */
-func (a *DefaultApiService) CreateApplicationAuthenticationExecute(r ApiCreateApplicationAuthenticationRequest) (ApplicationAuthentication, *_nethttp.Response, error) {
+func (a *DefaultApiService) CreateApplicationAuthenticationExecute(r ApiCreateApplicationAuthenticationRequest) (ApplicationAuthentication, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationAuthentication
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.CreateApplicationAuthentication")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_authentications"
@@ -294,7 +310,8 @@ func (a *DefaultApiService) CreateApplicationAuthenticationExecute(r ApiCreateAp
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.applicationAuthentication == nil {
-		return localVarReturnValue, nil, reportError("applicationAuthentication is required and must be specified")
+		executionError.error = "applicationAuthentication is required and must be specified"
+		return localVarReturnValue, nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -318,18 +335,22 @@ func (a *DefaultApiService) CreateApplicationAuthenticationExecute(r ApiCreateAp
 	localVarPostBody = r.applicationAuthentication
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -349,7 +370,7 @@ func (a *DefaultApiService) CreateApplicationAuthenticationExecute(r ApiCreateAp
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiCreateAuthenticationRequest struct {
@@ -363,7 +384,7 @@ func (r ApiCreateAuthenticationRequest) Authentication(authentication Authentica
 	return r
 }
 
-func (r ApiCreateAuthenticationRequest) Execute() (Authentication, *_nethttp.Response, error) {
+func (r ApiCreateAuthenticationRequest) Execute() (Authentication, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.CreateAuthenticationExecute(r)
 }
 
@@ -384,19 +405,21 @@ func (a *DefaultApiService) CreateAuthentication(ctx _context.Context) ApiCreate
  * Execute executes the request
  * @return Authentication
  */
-func (a *DefaultApiService) CreateAuthenticationExecute(r ApiCreateAuthenticationRequest) (Authentication, *_nethttp.Response, error) {
+func (a *DefaultApiService) CreateAuthenticationExecute(r ApiCreateAuthenticationRequest) (Authentication, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Authentication
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.CreateAuthentication")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/authentications"
@@ -405,7 +428,8 @@ func (a *DefaultApiService) CreateAuthenticationExecute(r ApiCreateAuthenticatio
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.authentication == nil {
-		return localVarReturnValue, nil, reportError("authentication is required and must be specified")
+		executionError.error = "authentication is required and must be specified"
+		return localVarReturnValue, nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -429,18 +453,22 @@ func (a *DefaultApiService) CreateAuthenticationExecute(r ApiCreateAuthenticatio
 	localVarPostBody = r.authentication
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -460,7 +488,7 @@ func (a *DefaultApiService) CreateAuthenticationExecute(r ApiCreateAuthenticatio
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiCreateEndpointRequest struct {
@@ -474,7 +502,7 @@ func (r ApiCreateEndpointRequest) Endpoint(endpoint Endpoint) ApiCreateEndpointR
 	return r
 }
 
-func (r ApiCreateEndpointRequest) Execute() (Endpoint, *_nethttp.Response, error) {
+func (r ApiCreateEndpointRequest) Execute() (Endpoint, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.CreateEndpointExecute(r)
 }
 
@@ -495,19 +523,21 @@ func (a *DefaultApiService) CreateEndpoint(ctx _context.Context) ApiCreateEndpoi
  * Execute executes the request
  * @return Endpoint
  */
-func (a *DefaultApiService) CreateEndpointExecute(r ApiCreateEndpointRequest) (Endpoint, *_nethttp.Response, error) {
+func (a *DefaultApiService) CreateEndpointExecute(r ApiCreateEndpointRequest) (Endpoint, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Endpoint
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.CreateEndpoint")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/endpoints"
@@ -516,7 +546,8 @@ func (a *DefaultApiService) CreateEndpointExecute(r ApiCreateEndpointRequest) (E
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.endpoint == nil {
-		return localVarReturnValue, nil, reportError("endpoint is required and must be specified")
+		executionError.error = "endpoint is required and must be specified"
+		return localVarReturnValue, nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -540,18 +571,22 @@ func (a *DefaultApiService) CreateEndpointExecute(r ApiCreateEndpointRequest) (E
 	localVarPostBody = r.endpoint
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -571,7 +606,7 @@ func (a *DefaultApiService) CreateEndpointExecute(r ApiCreateEndpointRequest) (E
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiCreateSourceRequest struct {
@@ -585,7 +620,7 @@ func (r ApiCreateSourceRequest) Source(source Source) ApiCreateSourceRequest {
 	return r
 }
 
-func (r ApiCreateSourceRequest) Execute() (Source, *_nethttp.Response, error) {
+func (r ApiCreateSourceRequest) Execute() (Source, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.CreateSourceExecute(r)
 }
 
@@ -606,19 +641,21 @@ func (a *DefaultApiService) CreateSource(ctx _context.Context) ApiCreateSourceRe
  * Execute executes the request
  * @return Source
  */
-func (a *DefaultApiService) CreateSourceExecute(r ApiCreateSourceRequest) (Source, *_nethttp.Response, error) {
+func (a *DefaultApiService) CreateSourceExecute(r ApiCreateSourceRequest) (Source, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Source
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.CreateSource")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources"
@@ -627,7 +664,8 @@ func (a *DefaultApiService) CreateSourceExecute(r ApiCreateSourceRequest) (Sourc
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.source == nil {
-		return localVarReturnValue, nil, reportError("source is required and must be specified")
+		executionError.error = "source is required and must be specified"
+		return localVarReturnValue, nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -651,18 +689,22 @@ func (a *DefaultApiService) CreateSourceExecute(r ApiCreateSourceRequest) (Sourc
 	localVarPostBody = r.source
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -682,7 +724,7 @@ func (a *DefaultApiService) CreateSourceExecute(r ApiCreateSourceRequest) (Sourc
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiDeleteApplicationRequest struct {
@@ -692,7 +734,7 @@ type ApiDeleteApplicationRequest struct {
 }
 
 
-func (r ApiDeleteApplicationRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiDeleteApplicationRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.DeleteApplicationExecute(r)
 }
 
@@ -714,18 +756,20 @@ func (a *DefaultApiService) DeleteApplication(ctx _context.Context, id string) A
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) DeleteApplicationExecute(r ApiDeleteApplicationRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) DeleteApplicationExecute(r ApiDeleteApplicationRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.DeleteApplication")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/applications/{id}"
@@ -754,18 +798,22 @@ func (a *DefaultApiService) DeleteApplicationExecute(r ApiDeleteApplicationReque
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -785,7 +833,7 @@ func (a *DefaultApiService) DeleteApplicationExecute(r ApiDeleteApplicationReque
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiDeleteApplicationAuthenticationRequest struct {
@@ -795,7 +843,7 @@ type ApiDeleteApplicationAuthenticationRequest struct {
 }
 
 
-func (r ApiDeleteApplicationAuthenticationRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiDeleteApplicationAuthenticationRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.DeleteApplicationAuthenticationExecute(r)
 }
 
@@ -817,18 +865,20 @@ func (a *DefaultApiService) DeleteApplicationAuthentication(ctx _context.Context
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) DeleteApplicationAuthenticationExecute(r ApiDeleteApplicationAuthenticationRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) DeleteApplicationAuthenticationExecute(r ApiDeleteApplicationAuthenticationRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.DeleteApplicationAuthentication")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_authentications/{id}"
@@ -857,18 +907,22 @@ func (a *DefaultApiService) DeleteApplicationAuthenticationExecute(r ApiDeleteAp
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -888,7 +942,7 @@ func (a *DefaultApiService) DeleteApplicationAuthenticationExecute(r ApiDeleteAp
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiDeleteAuthenticationRequest struct {
@@ -898,7 +952,7 @@ type ApiDeleteAuthenticationRequest struct {
 }
 
 
-func (r ApiDeleteAuthenticationRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiDeleteAuthenticationRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.DeleteAuthenticationExecute(r)
 }
 
@@ -920,18 +974,20 @@ func (a *DefaultApiService) DeleteAuthentication(ctx _context.Context, id string
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) DeleteAuthenticationExecute(r ApiDeleteAuthenticationRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) DeleteAuthenticationExecute(r ApiDeleteAuthenticationRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.DeleteAuthentication")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/authentications/{id}"
@@ -960,18 +1016,22 @@ func (a *DefaultApiService) DeleteAuthenticationExecute(r ApiDeleteAuthenticatio
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -991,7 +1051,7 @@ func (a *DefaultApiService) DeleteAuthenticationExecute(r ApiDeleteAuthenticatio
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiDeleteEndpointRequest struct {
@@ -1001,7 +1061,7 @@ type ApiDeleteEndpointRequest struct {
 }
 
 
-func (r ApiDeleteEndpointRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiDeleteEndpointRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.DeleteEndpointExecute(r)
 }
 
@@ -1023,18 +1083,20 @@ func (a *DefaultApiService) DeleteEndpoint(ctx _context.Context, id string) ApiD
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) DeleteEndpointExecute(r ApiDeleteEndpointRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) DeleteEndpointExecute(r ApiDeleteEndpointRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.DeleteEndpoint")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/endpoints/{id}"
@@ -1063,18 +1125,22 @@ func (a *DefaultApiService) DeleteEndpointExecute(r ApiDeleteEndpointRequest) (*
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1094,7 +1160,7 @@ func (a *DefaultApiService) DeleteEndpointExecute(r ApiDeleteEndpointRequest) (*
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiDeleteSourceRequest struct {
@@ -1104,7 +1170,7 @@ type ApiDeleteSourceRequest struct {
 }
 
 
-func (r ApiDeleteSourceRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiDeleteSourceRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.DeleteSourceExecute(r)
 }
 
@@ -1126,18 +1192,20 @@ func (a *DefaultApiService) DeleteSource(ctx _context.Context, id string) ApiDel
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) DeleteSourceExecute(r ApiDeleteSourceRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) DeleteSourceExecute(r ApiDeleteSourceRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.DeleteSource")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources/{id}"
@@ -1166,18 +1234,22 @@ func (a *DefaultApiService) DeleteSourceExecute(r ApiDeleteSourceRequest) (*_net
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1197,7 +1269,7 @@ func (a *DefaultApiService) DeleteSourceExecute(r ApiDeleteSourceRequest) (*_net
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiGetDocumentationRequest struct {
@@ -1206,7 +1278,7 @@ type ApiGetDocumentationRequest struct {
 }
 
 
-func (r ApiGetDocumentationRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
+func (r ApiGetDocumentationRequest) Execute() (map[string]interface{}, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.GetDocumentationExecute(r)
 }
 
@@ -1226,19 +1298,21 @@ func (a *DefaultApiService) GetDocumentation(ctx _context.Context) ApiGetDocumen
  * Execute executes the request
  * @return map[string]interface{}
  */
-func (a *DefaultApiService) GetDocumentationExecute(r ApiGetDocumentationRequest) (map[string]interface{}, *_nethttp.Response, error) {
+func (a *DefaultApiService) GetDocumentationExecute(r ApiGetDocumentationRequest) (map[string]interface{}, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.GetDocumentation")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/openapi.json"
@@ -1266,18 +1340,22 @@ func (a *DefaultApiService) GetDocumentationExecute(r ApiGetDocumentationRequest
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1297,7 +1375,146 @@ func (a *DefaultApiService) GetDocumentationExecute(r ApiGetDocumentationRequest
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
+}
+
+type ApiListAllAppMetaDataRequest struct {
+	ctx _context.Context
+	ApiService *DefaultApiService
+	limit *int32
+	offset *int32
+	filter *map[string]interface{}
+	sortBy *map[string]interface{}
+}
+
+func (r ApiListAllAppMetaDataRequest) Limit(limit int32) ApiListAllAppMetaDataRequest {
+	r.limit = &limit
+	return r
+}
+func (r ApiListAllAppMetaDataRequest) Offset(offset int32) ApiListAllAppMetaDataRequest {
+	r.offset = &offset
+	return r
+}
+func (r ApiListAllAppMetaDataRequest) Filter(filter map[string]interface{}) ApiListAllAppMetaDataRequest {
+	r.filter = &filter
+	return r
+}
+func (r ApiListAllAppMetaDataRequest) SortBy(sortBy map[string]interface{}) ApiListAllAppMetaDataRequest {
+	r.sortBy = &sortBy
+	return r
+}
+
+func (r ApiListAllAppMetaDataRequest) Execute() (AppMetaDatumCollection, *_nethttp.Response, GenericOpenAPIError) {
+	return r.ApiService.ListAllAppMetaDataExecute(r)
+}
+
+/*
+ * ListAllAppMetaData List AppMetaData
+ * Returns an array of AppMetaData objects
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @return ApiListAllAppMetaDataRequest
+ */
+func (a *DefaultApiService) ListAllAppMetaData(ctx _context.Context) ApiListAllAppMetaDataRequest {
+	return ApiListAllAppMetaDataRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return AppMetaDatumCollection
+ */
+func (a *DefaultApiService) ListAllAppMetaDataExecute(r ApiListAllAppMetaDataRequest) (AppMetaDatumCollection, *_nethttp.Response, GenericOpenAPIError) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
+		localVarReturnValue  AppMetaDatumCollection
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListAllAppMetaData")
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarPath := localBasePath + "/app_meta_data"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if r.limit != nil {
+		localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+	}
+	if r.offset != nil {
+		localVarQueryParams.Add("offset", parameterToString(*r.offset, ""))
+	}
+	if r.filter != nil {
+		localVarQueryParams.Add("filter", parameterToString(*r.filter, ""))
+	}
+	if r.sortBy != nil {
+		localVarQueryParams.Add("sort_by", parameterToString(*r.sortBy, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListAllApplicationAuthenticationsRequest struct {
@@ -1326,7 +1543,7 @@ func (r ApiListAllApplicationAuthenticationsRequest) SortBy(sortBy map[string]in
 	return r
 }
 
-func (r ApiListAllApplicationAuthenticationsRequest) Execute() (ApplicationAuthenticationsCollection, *_nethttp.Response, error) {
+func (r ApiListAllApplicationAuthenticationsRequest) Execute() (ApplicationAuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListAllApplicationAuthenticationsExecute(r)
 }
 
@@ -1347,19 +1564,21 @@ func (a *DefaultApiService) ListAllApplicationAuthentications(ctx _context.Conte
  * Execute executes the request
  * @return ApplicationAuthenticationsCollection
  */
-func (a *DefaultApiService) ListAllApplicationAuthenticationsExecute(r ApiListAllApplicationAuthenticationsRequest) (ApplicationAuthenticationsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListAllApplicationAuthenticationsExecute(r ApiListAllApplicationAuthenticationsRequest) (ApplicationAuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationAuthenticationsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListAllApplicationAuthentications")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_authentications"
@@ -1399,18 +1618,22 @@ func (a *DefaultApiService) ListAllApplicationAuthenticationsExecute(r ApiListAl
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1430,7 +1653,7 @@ func (a *DefaultApiService) ListAllApplicationAuthenticationsExecute(r ApiListAl
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListApplicationAuthenticationsRequest struct {
@@ -1460,7 +1683,7 @@ func (r ApiListApplicationAuthenticationsRequest) SortBy(sortBy map[string]inter
 	return r
 }
 
-func (r ApiListApplicationAuthenticationsRequest) Execute() (AuthenticationsCollection, *_nethttp.Response, error) {
+func (r ApiListApplicationAuthenticationsRequest) Execute() (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListApplicationAuthenticationsExecute(r)
 }
 
@@ -1483,19 +1706,21 @@ func (a *DefaultApiService) ListApplicationAuthentications(ctx _context.Context,
  * Execute executes the request
  * @return AuthenticationsCollection
  */
-func (a *DefaultApiService) ListApplicationAuthenticationsExecute(r ApiListApplicationAuthenticationsRequest) (AuthenticationsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListApplicationAuthenticationsExecute(r ApiListApplicationAuthenticationsRequest) (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  AuthenticationsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListApplicationAuthentications")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/applications/{id}/authentications"
@@ -1536,18 +1761,22 @@ func (a *DefaultApiService) ListApplicationAuthenticationsExecute(r ApiListAppli
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1576,7 +1805,159 @@ func (a *DefaultApiService) ListApplicationAuthenticationsExecute(r ApiListAppli
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
+}
+
+type ApiListApplicationTypeAppMetaDataRequest struct {
+	ctx _context.Context
+	ApiService *DefaultApiService
+	id string
+	limit *int32
+	offset *int32
+	filter *map[string]interface{}
+	sortBy *map[string]interface{}
+}
+
+func (r ApiListApplicationTypeAppMetaDataRequest) Limit(limit int32) ApiListApplicationTypeAppMetaDataRequest {
+	r.limit = &limit
+	return r
+}
+func (r ApiListApplicationTypeAppMetaDataRequest) Offset(offset int32) ApiListApplicationTypeAppMetaDataRequest {
+	r.offset = &offset
+	return r
+}
+func (r ApiListApplicationTypeAppMetaDataRequest) Filter(filter map[string]interface{}) ApiListApplicationTypeAppMetaDataRequest {
+	r.filter = &filter
+	return r
+}
+func (r ApiListApplicationTypeAppMetaDataRequest) SortBy(sortBy map[string]interface{}) ApiListApplicationTypeAppMetaDataRequest {
+	r.sortBy = &sortBy
+	return r
+}
+
+func (r ApiListApplicationTypeAppMetaDataRequest) Execute() (AppMetaDatumCollection, *_nethttp.Response, GenericOpenAPIError) {
+	return r.ApiService.ListApplicationTypeAppMetaDataExecute(r)
+}
+
+/*
+ * ListApplicationTypeAppMetaData List AppMetaData for ApplicationType
+ * Returns an array of AppMetaData objects
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id ID of the resource
+ * @return ApiListApplicationTypeAppMetaDataRequest
+ */
+func (a *DefaultApiService) ListApplicationTypeAppMetaData(ctx _context.Context, id string) ApiListApplicationTypeAppMetaDataRequest {
+	return ApiListApplicationTypeAppMetaDataRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return AppMetaDatumCollection
+ */
+func (a *DefaultApiService) ListApplicationTypeAppMetaDataExecute(r ApiListApplicationTypeAppMetaDataRequest) (AppMetaDatumCollection, *_nethttp.Response, GenericOpenAPIError) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
+		localVarReturnValue  AppMetaDatumCollection
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListApplicationTypeAppMetaData")
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarPath := localBasePath + "/application_types/{id}/app_meta_data"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if r.limit != nil {
+		localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+	}
+	if r.offset != nil {
+		localVarQueryParams.Add("offset", parameterToString(*r.offset, ""))
+	}
+	if r.filter != nil {
+		localVarQueryParams.Add("filter", parameterToString(*r.filter, ""))
+	}
+	if r.sortBy != nil {
+		localVarQueryParams.Add("sort_by", parameterToString(*r.sortBy, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ErrorNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListApplicationTypeSourcesRequest struct {
@@ -1606,7 +1987,7 @@ func (r ApiListApplicationTypeSourcesRequest) SortBy(sortBy map[string]interface
 	return r
 }
 
-func (r ApiListApplicationTypeSourcesRequest) Execute() (SourcesCollection, *_nethttp.Response, error) {
+func (r ApiListApplicationTypeSourcesRequest) Execute() (SourcesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListApplicationTypeSourcesExecute(r)
 }
 
@@ -1629,19 +2010,21 @@ func (a *DefaultApiService) ListApplicationTypeSources(ctx _context.Context, id 
  * Execute executes the request
  * @return SourcesCollection
  */
-func (a *DefaultApiService) ListApplicationTypeSourcesExecute(r ApiListApplicationTypeSourcesRequest) (SourcesCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListApplicationTypeSourcesExecute(r ApiListApplicationTypeSourcesRequest) (SourcesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  SourcesCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListApplicationTypeSources")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_types/{id}/sources"
@@ -1682,18 +2065,22 @@ func (a *DefaultApiService) ListApplicationTypeSourcesExecute(r ApiListApplicati
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1722,7 +2109,7 @@ func (a *DefaultApiService) ListApplicationTypeSourcesExecute(r ApiListApplicati
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListApplicationTypesRequest struct {
@@ -1751,7 +2138,7 @@ func (r ApiListApplicationTypesRequest) SortBy(sortBy map[string]interface{}) Ap
 	return r
 }
 
-func (r ApiListApplicationTypesRequest) Execute() (ApplicationTypesCollection, *_nethttp.Response, error) {
+func (r ApiListApplicationTypesRequest) Execute() (ApplicationTypesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListApplicationTypesExecute(r)
 }
 
@@ -1772,19 +2159,21 @@ func (a *DefaultApiService) ListApplicationTypes(ctx _context.Context) ApiListAp
  * Execute executes the request
  * @return ApplicationTypesCollection
  */
-func (a *DefaultApiService) ListApplicationTypesExecute(r ApiListApplicationTypesRequest) (ApplicationTypesCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListApplicationTypesExecute(r ApiListApplicationTypesRequest) (ApplicationTypesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationTypesCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListApplicationTypes")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_types"
@@ -1824,18 +2213,22 @@ func (a *DefaultApiService) ListApplicationTypesExecute(r ApiListApplicationType
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1855,7 +2248,7 @@ func (a *DefaultApiService) ListApplicationTypesExecute(r ApiListApplicationType
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListApplicationsRequest struct {
@@ -1884,7 +2277,7 @@ func (r ApiListApplicationsRequest) SortBy(sortBy map[string]interface{}) ApiLis
 	return r
 }
 
-func (r ApiListApplicationsRequest) Execute() (ApplicationsCollection, *_nethttp.Response, error) {
+func (r ApiListApplicationsRequest) Execute() (ApplicationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListApplicationsExecute(r)
 }
 
@@ -1905,19 +2298,21 @@ func (a *DefaultApiService) ListApplications(ctx _context.Context) ApiListApplic
  * Execute executes the request
  * @return ApplicationsCollection
  */
-func (a *DefaultApiService) ListApplicationsExecute(r ApiListApplicationsRequest) (ApplicationsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListApplicationsExecute(r ApiListApplicationsRequest) (ApplicationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListApplications")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/applications"
@@ -1957,18 +2352,22 @@ func (a *DefaultApiService) ListApplicationsExecute(r ApiListApplicationsRequest
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1988,7 +2387,7 @@ func (a *DefaultApiService) ListApplicationsExecute(r ApiListApplicationsRequest
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListAuthenticationsRequest struct {
@@ -2017,7 +2416,7 @@ func (r ApiListAuthenticationsRequest) SortBy(sortBy map[string]interface{}) Api
 	return r
 }
 
-func (r ApiListAuthenticationsRequest) Execute() (AuthenticationsCollection, *_nethttp.Response, error) {
+func (r ApiListAuthenticationsRequest) Execute() (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListAuthenticationsExecute(r)
 }
 
@@ -2038,19 +2437,21 @@ func (a *DefaultApiService) ListAuthentications(ctx _context.Context) ApiListAut
  * Execute executes the request
  * @return AuthenticationsCollection
  */
-func (a *DefaultApiService) ListAuthenticationsExecute(r ApiListAuthenticationsRequest) (AuthenticationsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListAuthenticationsExecute(r ApiListAuthenticationsRequest) (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  AuthenticationsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListAuthentications")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/authentications"
@@ -2090,18 +2491,22 @@ func (a *DefaultApiService) ListAuthenticationsExecute(r ApiListAuthenticationsR
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2121,7 +2526,7 @@ func (a *DefaultApiService) ListAuthenticationsExecute(r ApiListAuthenticationsR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListEndpointAuthenticationsRequest struct {
@@ -2151,7 +2556,7 @@ func (r ApiListEndpointAuthenticationsRequest) SortBy(sortBy map[string]interfac
 	return r
 }
 
-func (r ApiListEndpointAuthenticationsRequest) Execute() (AuthenticationsCollection, *_nethttp.Response, error) {
+func (r ApiListEndpointAuthenticationsRequest) Execute() (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListEndpointAuthenticationsExecute(r)
 }
 
@@ -2174,19 +2579,21 @@ func (a *DefaultApiService) ListEndpointAuthentications(ctx _context.Context, id
  * Execute executes the request
  * @return AuthenticationsCollection
  */
-func (a *DefaultApiService) ListEndpointAuthenticationsExecute(r ApiListEndpointAuthenticationsRequest) (AuthenticationsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListEndpointAuthenticationsExecute(r ApiListEndpointAuthenticationsRequest) (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  AuthenticationsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListEndpointAuthentications")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/endpoints/{id}/authentications"
@@ -2227,18 +2634,22 @@ func (a *DefaultApiService) ListEndpointAuthenticationsExecute(r ApiListEndpoint
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2267,7 +2678,7 @@ func (a *DefaultApiService) ListEndpointAuthenticationsExecute(r ApiListEndpoint
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListEndpointsRequest struct {
@@ -2296,7 +2707,7 @@ func (r ApiListEndpointsRequest) SortBy(sortBy map[string]interface{}) ApiListEn
 	return r
 }
 
-func (r ApiListEndpointsRequest) Execute() (EndpointsCollection, *_nethttp.Response, error) {
+func (r ApiListEndpointsRequest) Execute() (EndpointsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListEndpointsExecute(r)
 }
 
@@ -2317,19 +2728,21 @@ func (a *DefaultApiService) ListEndpoints(ctx _context.Context) ApiListEndpoints
  * Execute executes the request
  * @return EndpointsCollection
  */
-func (a *DefaultApiService) ListEndpointsExecute(r ApiListEndpointsRequest) (EndpointsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListEndpointsExecute(r ApiListEndpointsRequest) (EndpointsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  EndpointsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListEndpoints")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/endpoints"
@@ -2369,18 +2782,22 @@ func (a *DefaultApiService) ListEndpointsExecute(r ApiListEndpointsRequest) (End
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2400,7 +2817,7 @@ func (a *DefaultApiService) ListEndpointsExecute(r ApiListEndpointsRequest) (End
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListSourceApplicationTypesRequest struct {
@@ -2430,7 +2847,7 @@ func (r ApiListSourceApplicationTypesRequest) SortBy(sortBy map[string]interface
 	return r
 }
 
-func (r ApiListSourceApplicationTypesRequest) Execute() (ApplicationTypesCollection, *_nethttp.Response, error) {
+func (r ApiListSourceApplicationTypesRequest) Execute() (ApplicationTypesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListSourceApplicationTypesExecute(r)
 }
 
@@ -2453,19 +2870,21 @@ func (a *DefaultApiService) ListSourceApplicationTypes(ctx _context.Context, id 
  * Execute executes the request
  * @return ApplicationTypesCollection
  */
-func (a *DefaultApiService) ListSourceApplicationTypesExecute(r ApiListSourceApplicationTypesRequest) (ApplicationTypesCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListSourceApplicationTypesExecute(r ApiListSourceApplicationTypesRequest) (ApplicationTypesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationTypesCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListSourceApplicationTypes")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources/{id}/application_types"
@@ -2506,18 +2925,22 @@ func (a *DefaultApiService) ListSourceApplicationTypesExecute(r ApiListSourceApp
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2546,7 +2969,7 @@ func (a *DefaultApiService) ListSourceApplicationTypesExecute(r ApiListSourceApp
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListSourceApplicationsRequest struct {
@@ -2576,7 +2999,7 @@ func (r ApiListSourceApplicationsRequest) SortBy(sortBy map[string]interface{}) 
 	return r
 }
 
-func (r ApiListSourceApplicationsRequest) Execute() (ApplicationsCollection, *_nethttp.Response, error) {
+func (r ApiListSourceApplicationsRequest) Execute() (ApplicationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListSourceApplicationsExecute(r)
 }
 
@@ -2599,19 +3022,21 @@ func (a *DefaultApiService) ListSourceApplications(ctx _context.Context, id stri
  * Execute executes the request
  * @return ApplicationsCollection
  */
-func (a *DefaultApiService) ListSourceApplicationsExecute(r ApiListSourceApplicationsRequest) (ApplicationsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListSourceApplicationsExecute(r ApiListSourceApplicationsRequest) (ApplicationsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListSourceApplications")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources/{id}/applications"
@@ -2652,18 +3077,22 @@ func (a *DefaultApiService) ListSourceApplicationsExecute(r ApiListSourceApplica
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2692,7 +3121,159 @@ func (a *DefaultApiService) ListSourceApplicationsExecute(r ApiListSourceApplica
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
+}
+
+type ApiListSourceAuthenticationsRequest struct {
+	ctx _context.Context
+	ApiService *DefaultApiService
+	id string
+	limit *int32
+	offset *int32
+	filter *map[string]interface{}
+	sortBy *map[string]interface{}
+}
+
+func (r ApiListSourceAuthenticationsRequest) Limit(limit int32) ApiListSourceAuthenticationsRequest {
+	r.limit = &limit
+	return r
+}
+func (r ApiListSourceAuthenticationsRequest) Offset(offset int32) ApiListSourceAuthenticationsRequest {
+	r.offset = &offset
+	return r
+}
+func (r ApiListSourceAuthenticationsRequest) Filter(filter map[string]interface{}) ApiListSourceAuthenticationsRequest {
+	r.filter = &filter
+	return r
+}
+func (r ApiListSourceAuthenticationsRequest) SortBy(sortBy map[string]interface{}) ApiListSourceAuthenticationsRequest {
+	r.sortBy = &sortBy
+	return r
+}
+
+func (r ApiListSourceAuthenticationsRequest) Execute() (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
+	return r.ApiService.ListSourceAuthenticationsExecute(r)
+}
+
+/*
+ * ListSourceAuthentications List Authentications for Source
+ * Returns an array of Authentication objects
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id ID of the resource
+ * @return ApiListSourceAuthenticationsRequest
+ */
+func (a *DefaultApiService) ListSourceAuthentications(ctx _context.Context, id string) ApiListSourceAuthenticationsRequest {
+	return ApiListSourceAuthenticationsRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return AuthenticationsCollection
+ */
+func (a *DefaultApiService) ListSourceAuthenticationsExecute(r ApiListSourceAuthenticationsRequest) (AuthenticationsCollection, *_nethttp.Response, GenericOpenAPIError) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
+		localVarReturnValue  AuthenticationsCollection
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListSourceAuthentications")
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarPath := localBasePath + "/sources/{id}/authentications"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if r.limit != nil {
+		localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+	}
+	if r.offset != nil {
+		localVarQueryParams.Add("offset", parameterToString(*r.offset, ""))
+	}
+	if r.filter != nil {
+		localVarQueryParams.Add("filter", parameterToString(*r.filter, ""))
+	}
+	if r.sortBy != nil {
+		localVarQueryParams.Add("sort_by", parameterToString(*r.sortBy, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ErrorNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListSourceEndpointsRequest struct {
@@ -2722,7 +3303,7 @@ func (r ApiListSourceEndpointsRequest) SortBy(sortBy map[string]interface{}) Api
 	return r
 }
 
-func (r ApiListSourceEndpointsRequest) Execute() (EndpointsCollection, *_nethttp.Response, error) {
+func (r ApiListSourceEndpointsRequest) Execute() (EndpointsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListSourceEndpointsExecute(r)
 }
 
@@ -2745,19 +3326,21 @@ func (a *DefaultApiService) ListSourceEndpoints(ctx _context.Context, id string)
  * Execute executes the request
  * @return EndpointsCollection
  */
-func (a *DefaultApiService) ListSourceEndpointsExecute(r ApiListSourceEndpointsRequest) (EndpointsCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListSourceEndpointsExecute(r ApiListSourceEndpointsRequest) (EndpointsCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  EndpointsCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListSourceEndpoints")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources/{id}/endpoints"
@@ -2798,18 +3381,22 @@ func (a *DefaultApiService) ListSourceEndpointsExecute(r ApiListSourceEndpointsR
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2838,7 +3425,7 @@ func (a *DefaultApiService) ListSourceEndpointsExecute(r ApiListSourceEndpointsR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListSourceTypeSourcesRequest struct {
@@ -2868,7 +3455,7 @@ func (r ApiListSourceTypeSourcesRequest) SortBy(sortBy map[string]interface{}) A
 	return r
 }
 
-func (r ApiListSourceTypeSourcesRequest) Execute() (SourcesCollection, *_nethttp.Response, error) {
+func (r ApiListSourceTypeSourcesRequest) Execute() (SourcesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListSourceTypeSourcesExecute(r)
 }
 
@@ -2891,19 +3478,21 @@ func (a *DefaultApiService) ListSourceTypeSources(ctx _context.Context, id strin
  * Execute executes the request
  * @return SourcesCollection
  */
-func (a *DefaultApiService) ListSourceTypeSourcesExecute(r ApiListSourceTypeSourcesRequest) (SourcesCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListSourceTypeSourcesExecute(r ApiListSourceTypeSourcesRequest) (SourcesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  SourcesCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListSourceTypeSources")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/source_types/{id}/sources"
@@ -2944,18 +3533,22 @@ func (a *DefaultApiService) ListSourceTypeSourcesExecute(r ApiListSourceTypeSour
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2984,7 +3577,7 @@ func (a *DefaultApiService) ListSourceTypeSourcesExecute(r ApiListSourceTypeSour
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListSourceTypesRequest struct {
@@ -3013,7 +3606,7 @@ func (r ApiListSourceTypesRequest) SortBy(sortBy map[string]interface{}) ApiList
 	return r
 }
 
-func (r ApiListSourceTypesRequest) Execute() (SourceTypesCollection, *_nethttp.Response, error) {
+func (r ApiListSourceTypesRequest) Execute() (SourceTypesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListSourceTypesExecute(r)
 }
 
@@ -3034,19 +3627,21 @@ func (a *DefaultApiService) ListSourceTypes(ctx _context.Context) ApiListSourceT
  * Execute executes the request
  * @return SourceTypesCollection
  */
-func (a *DefaultApiService) ListSourceTypesExecute(r ApiListSourceTypesRequest) (SourceTypesCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListSourceTypesExecute(r ApiListSourceTypesRequest) (SourceTypesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  SourceTypesCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListSourceTypes")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/source_types"
@@ -3086,18 +3681,22 @@ func (a *DefaultApiService) ListSourceTypesExecute(r ApiListSourceTypesRequest) 
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3117,7 +3716,7 @@ func (a *DefaultApiService) ListSourceTypesExecute(r ApiListSourceTypesRequest) 
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiListSourcesRequest struct {
@@ -3146,7 +3745,7 @@ func (r ApiListSourcesRequest) SortBy(sortBy map[string]interface{}) ApiListSour
 	return r
 }
 
-func (r ApiListSourcesRequest) Execute() (SourcesCollection, *_nethttp.Response, error) {
+func (r ApiListSourcesRequest) Execute() (SourcesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ListSourcesExecute(r)
 }
 
@@ -3167,19 +3766,21 @@ func (a *DefaultApiService) ListSources(ctx _context.Context) ApiListSourcesRequ
  * Execute executes the request
  * @return SourcesCollection
  */
-func (a *DefaultApiService) ListSourcesExecute(r ApiListSourcesRequest) (SourcesCollection, *_nethttp.Response, error) {
+func (a *DefaultApiService) ListSourcesExecute(r ApiListSourcesRequest) (SourcesCollection, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  SourcesCollection
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ListSources")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources"
@@ -3219,18 +3820,22 @@ func (a *DefaultApiService) ListSourcesExecute(r ApiListSourcesRequest) (Sources
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3250,7 +3855,7 @@ func (a *DefaultApiService) ListSourcesExecute(r ApiListSourcesRequest) (Sources
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiPostGraphQLRequest struct {
@@ -3264,7 +3869,7 @@ func (r ApiPostGraphQLRequest) GraphQLRequest(graphQLRequest GraphQLRequest) Api
 	return r
 }
 
-func (r ApiPostGraphQLRequest) Execute() (GraphQLResponse, *_nethttp.Response, error) {
+func (r ApiPostGraphQLRequest) Execute() (GraphQLResponse, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.PostGraphQLExecute(r)
 }
 
@@ -3285,19 +3890,21 @@ func (a *DefaultApiService) PostGraphQL(ctx _context.Context) ApiPostGraphQLRequ
  * Execute executes the request
  * @return GraphQLResponse
  */
-func (a *DefaultApiService) PostGraphQLExecute(r ApiPostGraphQLRequest) (GraphQLResponse, *_nethttp.Response, error) {
+func (a *DefaultApiService) PostGraphQLExecute(r ApiPostGraphQLRequest) (GraphQLResponse, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  GraphQLResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.PostGraphQL")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/graphql"
@@ -3306,7 +3913,8 @@ func (a *DefaultApiService) PostGraphQLExecute(r ApiPostGraphQLRequest) (GraphQL
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.graphQLRequest == nil {
-		return localVarReturnValue, nil, reportError("graphQLRequest is required and must be specified")
+		executionError.error = "graphQLRequest is required and must be specified"
+		return localVarReturnValue, nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -3330,18 +3938,22 @@ func (a *DefaultApiService) PostGraphQLExecute(r ApiPostGraphQLRequest) (GraphQL
 	localVarPostBody = r.graphQLRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3361,7 +3973,127 @@ func (a *DefaultApiService) PostGraphQLExecute(r ApiPostGraphQLRequest) (GraphQL
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
+}
+
+type ApiShowAppMetaDataRequest struct {
+	ctx _context.Context
+	ApiService *DefaultApiService
+	id string
+}
+
+
+func (r ApiShowAppMetaDataRequest) Execute() (AppMetaDatum, *_nethttp.Response, GenericOpenAPIError) {
+	return r.ApiService.ShowAppMetaDataExecute(r)
+}
+
+/*
+ * ShowAppMetaData Show an existing AppMetaData
+ * Returns a AppMetaData object
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id ID of the resource
+ * @return ApiShowAppMetaDataRequest
+ */
+func (a *DefaultApiService) ShowAppMetaData(ctx _context.Context, id string) ApiShowAppMetaDataRequest {
+	return ApiShowAppMetaDataRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return AppMetaDatum
+ */
+func (a *DefaultApiService) ShowAppMetaDataExecute(r ApiShowAppMetaDataRequest) (AppMetaDatum, *_nethttp.Response, GenericOpenAPIError) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
+		localVarReturnValue  AppMetaDatum
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowAppMetaData")
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarPath := localBasePath + "/app_meta_data/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ErrorNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiShowApplicationRequest struct {
@@ -3371,7 +4103,7 @@ type ApiShowApplicationRequest struct {
 }
 
 
-func (r ApiShowApplicationRequest) Execute() (Application, *_nethttp.Response, error) {
+func (r ApiShowApplicationRequest) Execute() (Application, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ShowApplicationExecute(r)
 }
 
@@ -3394,19 +4126,21 @@ func (a *DefaultApiService) ShowApplication(ctx _context.Context, id string) Api
  * Execute executes the request
  * @return Application
  */
-func (a *DefaultApiService) ShowApplicationExecute(r ApiShowApplicationRequest) (Application, *_nethttp.Response, error) {
+func (a *DefaultApiService) ShowApplicationExecute(r ApiShowApplicationRequest) (Application, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Application
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowApplication")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/applications/{id}"
@@ -3435,18 +4169,22 @@ func (a *DefaultApiService) ShowApplicationExecute(r ApiShowApplicationRequest) 
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3475,7 +4213,7 @@ func (a *DefaultApiService) ShowApplicationExecute(r ApiShowApplicationRequest) 
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiShowApplicationAuthenticationRequest struct {
@@ -3485,7 +4223,7 @@ type ApiShowApplicationAuthenticationRequest struct {
 }
 
 
-func (r ApiShowApplicationAuthenticationRequest) Execute() (ApplicationAuthentication, *_nethttp.Response, error) {
+func (r ApiShowApplicationAuthenticationRequest) Execute() (ApplicationAuthentication, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ShowApplicationAuthenticationExecute(r)
 }
 
@@ -3508,19 +4246,21 @@ func (a *DefaultApiService) ShowApplicationAuthentication(ctx _context.Context, 
  * Execute executes the request
  * @return ApplicationAuthentication
  */
-func (a *DefaultApiService) ShowApplicationAuthenticationExecute(r ApiShowApplicationAuthenticationRequest) (ApplicationAuthentication, *_nethttp.Response, error) {
+func (a *DefaultApiService) ShowApplicationAuthenticationExecute(r ApiShowApplicationAuthenticationRequest) (ApplicationAuthentication, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationAuthentication
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowApplicationAuthentication")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_authentications/{id}"
@@ -3549,18 +4289,22 @@ func (a *DefaultApiService) ShowApplicationAuthenticationExecute(r ApiShowApplic
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3589,7 +4333,7 @@ func (a *DefaultApiService) ShowApplicationAuthenticationExecute(r ApiShowApplic
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiShowApplicationTypeRequest struct {
@@ -3599,7 +4343,7 @@ type ApiShowApplicationTypeRequest struct {
 }
 
 
-func (r ApiShowApplicationTypeRequest) Execute() (ApplicationType, *_nethttp.Response, error) {
+func (r ApiShowApplicationTypeRequest) Execute() (ApplicationType, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ShowApplicationTypeExecute(r)
 }
 
@@ -3622,19 +4366,21 @@ func (a *DefaultApiService) ShowApplicationType(ctx _context.Context, id string)
  * Execute executes the request
  * @return ApplicationType
  */
-func (a *DefaultApiService) ShowApplicationTypeExecute(r ApiShowApplicationTypeRequest) (ApplicationType, *_nethttp.Response, error) {
+func (a *DefaultApiService) ShowApplicationTypeExecute(r ApiShowApplicationTypeRequest) (ApplicationType, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  ApplicationType
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowApplicationType")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_types/{id}"
@@ -3663,18 +4409,22 @@ func (a *DefaultApiService) ShowApplicationTypeExecute(r ApiShowApplicationTypeR
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3703,7 +4453,7 @@ func (a *DefaultApiService) ShowApplicationTypeExecute(r ApiShowApplicationTypeR
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiShowAuthenticationRequest struct {
@@ -3713,7 +4463,7 @@ type ApiShowAuthenticationRequest struct {
 }
 
 
-func (r ApiShowAuthenticationRequest) Execute() (Authentication, *_nethttp.Response, error) {
+func (r ApiShowAuthenticationRequest) Execute() (Authentication, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ShowAuthenticationExecute(r)
 }
 
@@ -3736,19 +4486,21 @@ func (a *DefaultApiService) ShowAuthentication(ctx _context.Context, id string) 
  * Execute executes the request
  * @return Authentication
  */
-func (a *DefaultApiService) ShowAuthenticationExecute(r ApiShowAuthenticationRequest) (Authentication, *_nethttp.Response, error) {
+func (a *DefaultApiService) ShowAuthenticationExecute(r ApiShowAuthenticationRequest) (Authentication, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Authentication
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowAuthentication")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/authentications/{id}"
@@ -3777,18 +4529,22 @@ func (a *DefaultApiService) ShowAuthenticationExecute(r ApiShowAuthenticationReq
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3817,7 +4573,7 @@ func (a *DefaultApiService) ShowAuthenticationExecute(r ApiShowAuthenticationReq
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiShowEndpointRequest struct {
@@ -3827,7 +4583,7 @@ type ApiShowEndpointRequest struct {
 }
 
 
-func (r ApiShowEndpointRequest) Execute() (Endpoint, *_nethttp.Response, error) {
+func (r ApiShowEndpointRequest) Execute() (Endpoint, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ShowEndpointExecute(r)
 }
 
@@ -3850,19 +4606,21 @@ func (a *DefaultApiService) ShowEndpoint(ctx _context.Context, id string) ApiSho
  * Execute executes the request
  * @return Endpoint
  */
-func (a *DefaultApiService) ShowEndpointExecute(r ApiShowEndpointRequest) (Endpoint, *_nethttp.Response, error) {
+func (a *DefaultApiService) ShowEndpointExecute(r ApiShowEndpointRequest) (Endpoint, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Endpoint
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowEndpoint")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/endpoints/{id}"
@@ -3891,18 +4649,22 @@ func (a *DefaultApiService) ShowEndpointExecute(r ApiShowEndpointRequest) (Endpo
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3931,7 +4693,7 @@ func (a *DefaultApiService) ShowEndpointExecute(r ApiShowEndpointRequest) (Endpo
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiShowSourceRequest struct {
@@ -3941,7 +4703,7 @@ type ApiShowSourceRequest struct {
 }
 
 
-func (r ApiShowSourceRequest) Execute() (Source, *_nethttp.Response, error) {
+func (r ApiShowSourceRequest) Execute() (Source, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ShowSourceExecute(r)
 }
 
@@ -3964,19 +4726,21 @@ func (a *DefaultApiService) ShowSource(ctx _context.Context, id string) ApiShowS
  * Execute executes the request
  * @return Source
  */
-func (a *DefaultApiService) ShowSourceExecute(r ApiShowSourceRequest) (Source, *_nethttp.Response, error) {
+func (a *DefaultApiService) ShowSourceExecute(r ApiShowSourceRequest) (Source, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  Source
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowSource")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources/{id}"
@@ -4005,18 +4769,22 @@ func (a *DefaultApiService) ShowSourceExecute(r ApiShowSourceRequest) (Source, *
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -4045,7 +4813,7 @@ func (a *DefaultApiService) ShowSourceExecute(r ApiShowSourceRequest) (Source, *
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiShowSourceTypeRequest struct {
@@ -4055,7 +4823,7 @@ type ApiShowSourceTypeRequest struct {
 }
 
 
-func (r ApiShowSourceTypeRequest) Execute() (SourceType, *_nethttp.Response, error) {
+func (r ApiShowSourceTypeRequest) Execute() (SourceType, *_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.ShowSourceTypeExecute(r)
 }
 
@@ -4078,19 +4846,21 @@ func (a *DefaultApiService) ShowSourceType(ctx _context.Context, id string) ApiS
  * Execute executes the request
  * @return SourceType
  */
-func (a *DefaultApiService) ShowSourceTypeExecute(r ApiShowSourceTypeRequest) (SourceType, *_nethttp.Response, error) {
+func (a *DefaultApiService) ShowSourceTypeExecute(r ApiShowSourceTypeRequest) (SourceType, *_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 		localVarReturnValue  SourceType
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ShowSourceType")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarPath := localBasePath + "/source_types/{id}"
@@ -4119,18 +4889,22 @@ func (a *DefaultApiService) ShowSourceTypeExecute(r ApiShowSourceTypeRequest) (S
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		executionError.error = err.Error()
+		return localVarReturnValue, nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarReturnValue, localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -4159,7 +4933,7 @@ func (a *DefaultApiService) ShowSourceTypeExecute(r ApiShowSourceTypeRequest) (S
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarReturnValue, localVarHTTPResponse, executionError
 }
 
 type ApiUpdateApplicationRequest struct {
@@ -4174,7 +4948,7 @@ func (r ApiUpdateApplicationRequest) Application(application Application) ApiUpd
 	return r
 }
 
-func (r ApiUpdateApplicationRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiUpdateApplicationRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.UpdateApplicationExecute(r)
 }
 
@@ -4196,18 +4970,20 @@ func (a *DefaultApiService) UpdateApplication(ctx _context.Context, id string) A
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) UpdateApplicationExecute(r ApiUpdateApplicationRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) UpdateApplicationExecute(r ApiUpdateApplicationRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.UpdateApplication")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/applications/{id}"
@@ -4217,7 +4993,8 @@ func (a *DefaultApiService) UpdateApplicationExecute(r ApiUpdateApplicationReque
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.application == nil {
-		return nil, reportError("application is required and must be specified")
+		executionError.error = "application is required and must be specified"
+		return nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -4241,18 +5018,22 @@ func (a *DefaultApiService) UpdateApplicationExecute(r ApiUpdateApplicationReque
 	localVarPostBody = r.application
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -4272,7 +5053,7 @@ func (a *DefaultApiService) UpdateApplicationExecute(r ApiUpdateApplicationReque
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiUpdateApplicationAuthenticationRequest struct {
@@ -4287,7 +5068,7 @@ func (r ApiUpdateApplicationAuthenticationRequest) ApplicationAuthentication(app
 	return r
 }
 
-func (r ApiUpdateApplicationAuthenticationRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiUpdateApplicationAuthenticationRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.UpdateApplicationAuthenticationExecute(r)
 }
 
@@ -4309,18 +5090,20 @@ func (a *DefaultApiService) UpdateApplicationAuthentication(ctx _context.Context
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) UpdateApplicationAuthenticationExecute(r ApiUpdateApplicationAuthenticationRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) UpdateApplicationAuthenticationExecute(r ApiUpdateApplicationAuthenticationRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.UpdateApplicationAuthentication")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/application_authentications/{id}"
@@ -4330,7 +5113,8 @@ func (a *DefaultApiService) UpdateApplicationAuthenticationExecute(r ApiUpdateAp
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.applicationAuthentication == nil {
-		return nil, reportError("applicationAuthentication is required and must be specified")
+		executionError.error = "applicationAuthentication is required and must be specified"
+		return nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -4354,18 +5138,22 @@ func (a *DefaultApiService) UpdateApplicationAuthenticationExecute(r ApiUpdateAp
 	localVarPostBody = r.applicationAuthentication
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -4385,7 +5173,7 @@ func (a *DefaultApiService) UpdateApplicationAuthenticationExecute(r ApiUpdateAp
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiUpdateAuthenticationRequest struct {
@@ -4400,7 +5188,7 @@ func (r ApiUpdateAuthenticationRequest) Authentication(authentication Authentica
 	return r
 }
 
-func (r ApiUpdateAuthenticationRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiUpdateAuthenticationRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.UpdateAuthenticationExecute(r)
 }
 
@@ -4422,18 +5210,20 @@ func (a *DefaultApiService) UpdateAuthentication(ctx _context.Context, id string
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) UpdateAuthenticationExecute(r ApiUpdateAuthenticationRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) UpdateAuthenticationExecute(r ApiUpdateAuthenticationRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.UpdateAuthentication")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/authentications/{id}"
@@ -4443,7 +5233,8 @@ func (a *DefaultApiService) UpdateAuthenticationExecute(r ApiUpdateAuthenticatio
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.authentication == nil {
-		return nil, reportError("authentication is required and must be specified")
+		executionError.error = "authentication is required and must be specified"
+		return nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -4467,18 +5258,22 @@ func (a *DefaultApiService) UpdateAuthenticationExecute(r ApiUpdateAuthenticatio
 	localVarPostBody = r.authentication
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -4498,7 +5293,7 @@ func (a *DefaultApiService) UpdateAuthenticationExecute(r ApiUpdateAuthenticatio
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiUpdateEndpointRequest struct {
@@ -4513,7 +5308,7 @@ func (r ApiUpdateEndpointRequest) Endpoint(endpoint Endpoint) ApiUpdateEndpointR
 	return r
 }
 
-func (r ApiUpdateEndpointRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiUpdateEndpointRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.UpdateEndpointExecute(r)
 }
 
@@ -4535,18 +5330,20 @@ func (a *DefaultApiService) UpdateEndpoint(ctx _context.Context, id string) ApiU
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) UpdateEndpointExecute(r ApiUpdateEndpointRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) UpdateEndpointExecute(r ApiUpdateEndpointRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.UpdateEndpoint")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/endpoints/{id}"
@@ -4556,7 +5353,8 @@ func (a *DefaultApiService) UpdateEndpointExecute(r ApiUpdateEndpointRequest) (*
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.endpoint == nil {
-		return nil, reportError("endpoint is required and must be specified")
+		executionError.error = "endpoint is required and must be specified"
+		return nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -4580,18 +5378,22 @@ func (a *DefaultApiService) UpdateEndpointExecute(r ApiUpdateEndpointRequest) (*
 	localVarPostBody = r.endpoint
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -4611,7 +5413,7 @@ func (a *DefaultApiService) UpdateEndpointExecute(r ApiUpdateEndpointRequest) (*
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }
 
 type ApiUpdateSourceRequest struct {
@@ -4626,7 +5428,7 @@ func (r ApiUpdateSourceRequest) Source(source Source) ApiUpdateSourceRequest {
 	return r
 }
 
-func (r ApiUpdateSourceRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiUpdateSourceRequest) Execute() (*_nethttp.Response, GenericOpenAPIError) {
 	return r.ApiService.UpdateSourceExecute(r)
 }
 
@@ -4648,18 +5450,20 @@ func (a *DefaultApiService) UpdateSource(ctx _context.Context, id string) ApiUpd
 /*
  * Execute executes the request
  */
-func (a *DefaultApiService) UpdateSourceExecute(r ApiUpdateSourceRequest) (*_nethttp.Response, error) {
+func (a *DefaultApiService) UpdateSourceExecute(r ApiUpdateSourceRequest) (*_nethttp.Response, GenericOpenAPIError) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		executionError       GenericOpenAPIError
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.UpdateSource")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarPath := localBasePath + "/sources/{id}"
@@ -4669,7 +5473,8 @@ func (a *DefaultApiService) UpdateSourceExecute(r ApiUpdateSourceRequest) (*_net
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if r.source == nil {
-		return nil, reportError("source is required and must be specified")
+		executionError.error = "source is required and must be specified"
+		return nil, executionError
 	}
 
 	// to determine the Content-Type header
@@ -4693,18 +5498,22 @@ func (a *DefaultApiService) UpdateSourceExecute(r ApiUpdateSourceRequest) (*_net
 	localVarPostBody = r.source
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		executionError.error = err.Error()
+		return nil, executionError
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		executionError.error = err.Error()
+		return localVarHTTPResponse, executionError
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -4724,5 +5533,5 @@ func (a *DefaultApiService) UpdateSourceExecute(r ApiUpdateSourceRequest) (*_net
 		return localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	return localVarHTTPResponse, executionError
 }

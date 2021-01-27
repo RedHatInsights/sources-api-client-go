@@ -3,7 +3,7 @@
  *
  * Sources
  *
- * API version: 3.0.0
+ * API version: 3.1.0
  * Contact: support@redhat.com
  */
 
