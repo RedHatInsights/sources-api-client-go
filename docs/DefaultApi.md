@@ -1,9 +1,10 @@
-# Catalog\DefaultApi
+# \DefaultApi
 
 All URIs are relative to *https://cloud.redhat.com//api/sources/v3.1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**BulkCreate**](DefaultApi.md#BulkCreate) | **Post** /bulk_create | Bulk-create a Source and specified sub-resources
 [**CheckAvailabilitySource**](DefaultApi.md#CheckAvailabilitySource) | **Post** /sources/{id}/check_availability | Checks Availability of a Source
 [**CreateApplication**](DefaultApi.md#CreateApplication) | **Post** /applications | Create a new Application
 [**CreateApplicationAuthentication**](DefaultApi.md#CreateApplicationAuthentication) | **Post** /application_authentications | Create a new ApplicationAuthentication
@@ -42,12 +43,80 @@ Method | HTTP request | Description
 [**ShowEndpoint**](DefaultApi.md#ShowEndpoint) | **Get** /endpoints/{id} | Show an existing Endpoint
 [**ShowSource**](DefaultApi.md#ShowSource) | **Get** /sources/{id} | Show an existing Source
 [**ShowSourceType**](DefaultApi.md#ShowSourceType) | **Get** /source_types/{id} | Show an existing SourceType
+[**SuperkeyCreate**](DefaultApi.md#SuperkeyCreate) | **Post** /superkey | Run the superkey workflow for a specified source for specified application types
+[**SuperkeyDestroyApplication**](DefaultApi.md#SuperkeyDestroyApplication) | **Delete** /superkey/{id} | Destroy the specified superkey application
 [**UpdateApplication**](DefaultApi.md#UpdateApplication) | **Patch** /applications/{id} | Update an existing Application
 [**UpdateApplicationAuthentication**](DefaultApi.md#UpdateApplicationAuthentication) | **Patch** /application_authentications/{id} | Update an existing ApplicationAuthentication
 [**UpdateAuthentication**](DefaultApi.md#UpdateAuthentication) | **Patch** /authentications/{id} | Update an existing Authentication
 [**UpdateEndpoint**](DefaultApi.md#UpdateEndpoint) | **Patch** /endpoints/{id} | Update an existing Endpoint
 [**UpdateSource**](DefaultApi.md#UpdateSource) | **Patch** /sources/{id} | Update an existing Source
 
+
+
+## BulkCreate
+
+> BulkCreateResponse BulkCreate(ctx).BulkCreatePayload(bulkCreatePayload).Execute()
+
+Bulk-create a Source and specified sub-resources
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    bulkCreatePayload := *openapiclient.NewBulkCreatePayload() // BulkCreatePayload |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.BulkCreate(context.Background()).BulkCreatePayload(bulkCreatePayload).Execute()
+    if err.Error() != "" {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.BulkCreate``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `BulkCreate`: BulkCreateResponse
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.BulkCreate`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiBulkCreateRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **bulkCreatePayload** | [**BulkCreatePayload**](BulkCreatePayload.md) |  | 
+
+### Return type
+
+[**BulkCreateResponse**](BulkCreateResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CheckAvailabilitySource
@@ -849,7 +918,7 @@ Other parameters are passed through a pointer to a apiGetDocumentationRequest st
 
 ## ListAllAppMetaData
 
-> AppMetaDatumCollection ListAllAppMetaData(ctx).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+> AppMetaDataCollection ListAllAppMetaData(ctx).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
 
 List AppMetaData
 
@@ -880,7 +949,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListAllAppMetaData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ListAllAppMetaData`: AppMetaDatumCollection
+    // response from `ListAllAppMetaData`: AppMetaDataCollection
     fmt.Fprintf(os.Stdout, "Response from `DefaultApi.ListAllAppMetaData`: %v\n", resp)
 }
 ```
@@ -903,7 +972,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AppMetaDatumCollection**](AppMetaDatumCollection.md)
+[**AppMetaDataCollection**](AppMetaDataCollection.md)
 
 ### Authorization
 
@@ -1071,7 +1140,7 @@ Name | Type | Description  | Notes
 
 ## ListApplicationTypeAppMetaData
 
-> AppMetaDatumCollection ListApplicationTypeAppMetaData(ctx, id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
+> AppMetaDataCollection ListApplicationTypeAppMetaData(ctx, id).Limit(limit).Offset(offset).Filter(filter).SortBy(sortBy).Execute()
 
 List AppMetaData for ApplicationType
 
@@ -1103,7 +1172,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ListApplicationTypeAppMetaData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ListApplicationTypeAppMetaData`: AppMetaDatumCollection
+    // response from `ListApplicationTypeAppMetaData`: AppMetaDataCollection
     fmt.Fprintf(os.Stdout, "Response from `DefaultApi.ListApplicationTypeAppMetaData`: %v\n", resp)
 }
 ```
@@ -1131,7 +1200,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AppMetaDatumCollection**](AppMetaDatumCollection.md)
+[**AppMetaDataCollection**](AppMetaDataCollection.md)
 
 ### Authorization
 
@@ -2193,7 +2262,7 @@ Name | Type | Description  | Notes
 
 ## ShowAppMetaData
 
-> AppMetaDatum ShowAppMetaData(ctx, id).Execute()
+> AppMetaData ShowAppMetaData(ctx, id).Execute()
 
 Show an existing AppMetaData
 
@@ -2221,7 +2290,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.ShowAppMetaData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ShowAppMetaData`: AppMetaDatum
+    // response from `ShowAppMetaData`: AppMetaData
     fmt.Fprintf(os.Stdout, "Response from `DefaultApi.ShowAppMetaData`: %v\n", resp)
 }
 ```
@@ -2245,7 +2314,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AppMetaDatum**](AppMetaDatum.md)
+[**AppMetaData**](AppMetaData.md)
 
 ### Authorization
 
@@ -2745,6 +2814,138 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SuperkeyCreate
+
+> SuperkeyCreate(ctx).SuperKeyRequest(superKeyRequest).Execute()
+
+Run the superkey workflow for a specified source for specified application types
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    superKeyRequest := *openapiclient.NewSuperKeyRequest() // SuperKeyRequest |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.SuperkeyCreate(context.Background()).SuperKeyRequest(superKeyRequest).Execute()
+    if err.Error() != "" {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.SuperkeyCreate``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSuperkeyCreateRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **superKeyRequest** | [**SuperKeyRequest**](SuperKeyRequest.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SuperkeyDestroyApplication
+
+> SuperkeyDestroyApplication(ctx, id).Execute()
+
+Destroy the specified superkey application
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := "id_example" // string | ID of the resource
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.SuperkeyDestroyApplication(context.Background(), id).Execute()
+    if err.Error() != "" {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.SuperkeyDestroyApplication``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | ID of the resource | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSuperkeyDestroyApplicationRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

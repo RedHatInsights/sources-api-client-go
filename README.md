@@ -78,6 +78,7 @@ All URIs are relative to *https://cloud.redhat.com//api/sources/v3.1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**BulkCreate**](docs/DefaultApi.md#bulkcreate) | **Post** /bulk_create | Bulk-create a Source and specified sub-resources
 *DefaultApi* | [**CheckAvailabilitySource**](docs/DefaultApi.md#checkavailabilitysource) | **Post** /sources/{id}/check_availability | Checks Availability of a Source
 *DefaultApi* | [**CreateApplication**](docs/DefaultApi.md#createapplication) | **Post** /applications | Create a new Application
 *DefaultApi* | [**CreateApplicationAuthentication**](docs/DefaultApi.md#createapplicationauthentication) | **Post** /application_authentications | Create a new ApplicationAuthentication
@@ -116,6 +117,8 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**ShowEndpoint**](docs/DefaultApi.md#showendpoint) | **Get** /endpoints/{id} | Show an existing Endpoint
 *DefaultApi* | [**ShowSource**](docs/DefaultApi.md#showsource) | **Get** /sources/{id} | Show an existing Source
 *DefaultApi* | [**ShowSourceType**](docs/DefaultApi.md#showsourcetype) | **Get** /source_types/{id} | Show an existing SourceType
+*DefaultApi* | [**SuperkeyCreate**](docs/DefaultApi.md#superkeycreate) | **Post** /superkey | Run the superkey workflow for a specified source for specified application types
+*DefaultApi* | [**SuperkeyDestroyApplication**](docs/DefaultApi.md#superkeydestroyapplication) | **Delete** /superkey/{id} | Destroy the specified superkey application
 *DefaultApi* | [**UpdateApplication**](docs/DefaultApi.md#updateapplication) | **Patch** /applications/{id} | Update an existing Application
 *DefaultApi* | [**UpdateApplicationAuthentication**](docs/DefaultApi.md#updateapplicationauthentication) | **Patch** /application_authentications/{id} | Update an existing ApplicationAuthentication
 *DefaultApi* | [**UpdateAuthentication**](docs/DefaultApi.md#updateauthentication) | **Patch** /authentications/{id} | Update an existing Authentication
@@ -126,8 +129,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AppMetaData](docs/AppMetaData.md)
- - [AppMetaDatum](docs/AppMetaDatum.md)
- - [AppMetaDatumCollection](docs/AppMetaDatumCollection.md)
+ - [AppMetaDataCollection](docs/AppMetaDataCollection.md)
  - [Application](docs/Application.md)
  - [ApplicationAuthentication](docs/ApplicationAuthentication.md)
  - [ApplicationAuthenticationsCollection](docs/ApplicationAuthenticationsCollection.md)
@@ -138,6 +140,12 @@ Class | Method | HTTP request | Description
  - [AuthenticationExtra](docs/AuthenticationExtra.md)
  - [AuthenticationExtraAzure](docs/AuthenticationExtraAzure.md)
  - [AuthenticationsCollection](docs/AuthenticationsCollection.md)
+ - [BulkCreatePayload](docs/BulkCreatePayload.md)
+ - [BulkCreatePayloadApplications](docs/BulkCreatePayloadApplications.md)
+ - [BulkCreatePayloadAuthentications](docs/BulkCreatePayloadAuthentications.md)
+ - [BulkCreatePayloadEndpoints](docs/BulkCreatePayloadEndpoints.md)
+ - [BulkCreatePayloadSources](docs/BulkCreatePayloadSources.md)
+ - [BulkCreateResponse](docs/BulkCreateResponse.md)
  - [CollectionLinks](docs/CollectionLinks.md)
  - [CollectionMetadata](docs/CollectionMetadata.md)
  - [Endpoint](docs/Endpoint.md)
@@ -150,6 +158,7 @@ Class | Method | HTTP request | Description
  - [SourceType](docs/SourceType.md)
  - [SourceTypesCollection](docs/SourceTypesCollection.md)
  - [SourcesCollection](docs/SourcesCollection.md)
+ - [SuperKeyRequest](docs/SuperKeyRequest.md)
 
 
 ## Documentation For Authorization

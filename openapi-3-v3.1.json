@@ -318,7 +318,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppMetaDatumCollection"
+                  "$ref": "#/components/schemas/AppMetaDataCollection"
                 }
               }
             }
@@ -1461,7 +1461,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppMetaDatumCollection"
+                  "$ref": "#/components/schemas/AppMetaDataCollection"
                 }
               }
             }
@@ -1485,7 +1485,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppMetaDatum"
+                  "$ref": "#/components/schemas/AppMetaData"
                 }
               }
             }
@@ -1499,6 +1499,81 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/bulk_create": {
+      "post": {
+        "summary": "Bulk-create a Source and specified sub-resources",
+        "operationId": "bulkCreate",
+        "description": "Bulk-create a Source and specified sub-resources",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCreatePayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resources Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkCreateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/superkey": {
+      "post": {
+        "summary": "Run the superkey workflow for a specified source for specified application types",
+        "operationId": "superkeyCreate",
+        "description": "Run the superkey workflow for a specified source for specified application types",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuperKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Request accepted."
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/superkey/{id}": {
+      "delete": {
+        "summary": "Destroy the specified superkey application",
+        "operationId": "superkeyDestroyApplication",
+        "description": "Destroy the specified superkey on specified application",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ID"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Superkey DELETE request queued."
+          },
+          "404": {
+            "description": "Application not found or not a valid superkey Application"
           }
         }
       }
@@ -1755,35 +1830,7 @@
         },
         "additionalProperties": false
       },
-      "AppMetaDatum": {
-        "type": "object",
-        "properties": {
-          "created_at": {
-            "format": "date-time",
-            "readOnly": true,
-            "type": "string"
-          },
-          "application_type_id": {
-            "type": "string"
-          },
-          "id": {
-            "$ref": "#/components/schemas/ID"
-          },
-          "name": {
-            "type": "string"
-          },
-          "payload": {
-            "type": "object"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "readOnly": true,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AppMetaDatumCollection": {
+      "AppMetaDataCollection": {
         "type": "object",
         "properties": {
           "meta": {
@@ -1795,7 +1842,7 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AppMetaDatum"
+              "$ref": "#/components/schemas/AppMetaData"
             }
           }
         }
@@ -2218,6 +2265,174 @@
             "items": {
               "$ref": "#/components/schemas/Source"
             }
+          }
+        }
+      },
+      "BulkCreatePayload": {
+        "type": "object",
+        "properties": {
+          "superkey_request": {
+            "$ref": "#/components/schemas/SuperKeyRequest"
+          },
+          "sources": {
+            "description": "Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically\nbe set based on the name.\n",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Source Type from supported types",
+                  "enum": [
+                    "amazon",
+                    "azure",
+                    "ansible-tower",
+                    "openshift",
+                    "satellite",
+                    "google"
+                  ]
+                }
+              }
+            }
+          },
+          "endpoints": {
+            "description": "Array of Endpoint objects to create. The operation looks up the parent source by the `source_name` attribute\nso the `source_name` must match one of the `source`'s names in the payload.\n",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "scheme": {
+                  "type": "string"
+                },
+                "host": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "integer"
+                },
+                "verify_ssl": {
+                  "type": "boolean"
+                },
+                "source_name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "applications": {
+            "description": "Array of Application objects to create. The operation looks up the parent Source by the `source_name` attribute\nso the `source_name` must match one of the `source`'s names in the payload.\n\napplication_type_id will be automatically looked up and set by the `type` attribute via regex.\n",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "extra": {
+                  "type": "object"
+                },
+                "source_name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "authentications": {
+            "description": "Array of Authentications to create. This one is a bit more tricky. `resource_type` tells the action where to look for the parent, must be either application/endpoint/source\n\nif the parent is a source, it looks up by name.\nif the parent is an endpoint, it looks up via host so the hostname must match.\nif the parent is an application, it looks up via application type so the value must match the application type which matches\n",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "authtype": {
+                  "type": "string"
+                },
+                "extra": {
+                  "type": "object"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "resource_name": {
+                  "type": "string"
+                },
+                "resource_type": {
+                  "type": "string",
+                  "enum": [
+                    "application",
+                    "endpoint",
+                    "source"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkCreateResponse": {
+        "type": "object",
+        "properties": {
+          "superkey": {
+            "type": "boolean",
+            "default": false
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            }
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Endpoint"
+            }
+          },
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Application"
+            }
+          },
+          "authentications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Authentication"
+            }
+          }
+        }
+      },
+      "SuperKeyRequest": {
+        "type": "object",
+        "description": "Details on the provided superkey request, most notably the provider and type of request(s)",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "amazon"
+            ]
+          },
+          "applications": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "cost-management",
+                "subscription-watch"
+              ]
+            }
+          },
+          "source_id": {
+            "description": "the superkey source to create applications under. only required if not included in a `bulk_create` request\n",
+            "type": "string"
           }
         }
       }

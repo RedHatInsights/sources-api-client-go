@@ -378,7 +378,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppMetaDatumCollection'
+                $ref: '#/components/schemas/AppMetaDataCollection'
           description: AppMetaData collection
         "404":
           content:
@@ -1638,7 +1638,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppMetaDatumCollection'
+                $ref: '#/components/schemas/AppMetaDataCollection'
           description: AppMetaData collection
       summary: List AppMetaData
   /app_meta_data/{id}:
@@ -1660,7 +1660,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppMetaDatum'
+                $ref: '#/components/schemas/AppMetaData'
           description: AppMetaData info
         "404":
           content:
@@ -1669,6 +1669,62 @@ paths:
                 $ref: '#/components/schemas/ErrorNotFound'
           description: Not found
       summary: Show an existing AppMetaData
+  /bulk_create:
+    post:
+      description: Bulk-create a Source and specified sub-resources
+      operationId: bulkCreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreatePayload'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateResponse'
+          description: Resources Created
+        "400":
+          description: Bad Request
+      summary: Bulk-create a Source and specified sub-resources
+  /superkey:
+    post:
+      description: Run the superkey workflow for a specified source for specified
+        application types
+      operationId: superkeyCreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuperKeyRequest'
+      responses:
+        "202":
+          description: Request accepted.
+        "400":
+          description: Bad Request
+      summary: Run the superkey workflow for a specified source for specified application
+        types
+  /superkey/{id}:
+    delete:
+      description: Destroy the specified superkey on specified application
+      operationId: superkeyDestroyApplication
+      parameters:
+      - description: ID of the resource
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          pattern: ^\d+$
+          type: string
+        style: simple
+      responses:
+        "202":
+          description: Superkey DELETE request queued.
+        "404":
+          description: Application not found or not a valid superkey Application
+      summary: Destroy the specified superkey application
 components:
   parameters:
     ID:
@@ -1915,29 +1971,6 @@ components:
       type: object
     AppMetaData:
       additionalProperties: false
-      properties:
-        created_at:
-          format: date-time
-          readOnly: true
-          type: string
-        application_type_id:
-          type: string
-        id:
-          description: ID of the resource
-          pattern: ^\d+$
-          readOnly: true
-          type: string
-        name:
-          type: string
-        payload:
-          type: object
-        updated_at:
-          format: date-time
-          readOnly: true
-          type: string
-      type: object
-    AppMetaDatum:
-      additionalProperties: false
       example:
         updated_at: 2000-01-23T04:56:07.000+00:00
         payload: '{}'
@@ -1966,7 +1999,7 @@ components:
           readOnly: true
           type: string
       type: object
-    AppMetaDatumCollection:
+    AppMetaDataCollection:
       example:
         data:
         - updated_at: 2000-01-23T04:56:07.000+00:00
@@ -1997,7 +2030,7 @@ components:
           $ref: '#/components/schemas/CollectionLinks'
         data:
           items:
-            $ref: '#/components/schemas/AppMetaDatum'
+            $ref: '#/components/schemas/AppMetaData'
           type: array
       type: object
     ApplicationsCollection:
@@ -2566,6 +2599,255 @@ components:
             $ref: '#/components/schemas/Source'
           type: array
       type: object
+    BulkCreatePayload:
+      example:
+        endpoints:
+        - path: path
+          scheme: scheme
+          verify_ssl: true
+          port: 0
+          host: host
+          source_name: source_name
+        - path: path
+          scheme: scheme
+          verify_ssl: true
+          port: 0
+          host: host
+          source_name: source_name
+        sources:
+        - name: name
+          type: amazon
+        - name: name
+          type: amazon
+        superkey_request:
+          provider: amazon
+          source_id: source_id
+          applications:
+          - cost-management
+          - cost-management
+        applications:
+        - extra: '{}'
+          type: type
+          source_name: source_name
+        - extra: '{}'
+          type: type
+          source_name: source_name
+        authentications:
+        - password: password
+          extra: '{}'
+          resource_type: application
+          resource_name: resource_name
+          authtype: authtype
+          username: username
+        - password: password
+          extra: '{}'
+          resource_type: application
+          resource_name: resource_name
+          authtype: authtype
+          username: username
+      properties:
+        superkey_request:
+          $ref: '#/components/schemas/SuperKeyRequest'
+        sources:
+          description: |
+            Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically
+            be set based on the name.
+          items:
+            $ref: '#/components/schemas/BulkCreatePayload_sources'
+          type: array
+        endpoints:
+          description: |
+            Array of Endpoint objects to create. The operation looks up the parent source by the `source_name` attribute
+            so the `source_name` must match one of the `source`'s names in the payload.
+          items:
+            $ref: '#/components/schemas/BulkCreatePayload_endpoints'
+          type: array
+        applications:
+          description: |
+            Array of Application objects to create. The operation looks up the parent Source by the `source_name` attribute
+            so the `source_name` must match one of the `source`'s names in the payload.
+
+            application_type_id will be automatically looked up and set by the `type` attribute via regex.
+          items:
+            $ref: '#/components/schemas/BulkCreatePayload_applications'
+          type: array
+        authentications:
+          description: |
+            Array of Authentications to create. This one is a bit more tricky. `resource_type` tells the action where to look for the parent, must be either application/endpoint/source
+
+            if the parent is a source, it looks up by name.
+            if the parent is an endpoint, it looks up via host so the hostname must match.
+            if the parent is an application, it looks up via application type so the value must match the application type which matches
+          items:
+            $ref: '#/components/schemas/BulkCreatePayload_authentications'
+          type: array
+      type: object
+    BulkCreateResponse:
+      example:
+        endpoints:
+        - role: default
+          scheme: https
+          certificate_authority: certificate_authority
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          path: /api/v1
+          default: true
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          verify_ssl: true
+          port: 80
+          host: www.example.com
+          receptor_node: receptor_node
+          id: id
+          source_id: source_id
+        - role: default
+          scheme: https
+          certificate_authority: certificate_authority
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          path: /api/v1
+          default: true
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          verify_ssl: true
+          port: 80
+          host: www.example.com
+          receptor_node: receptor_node
+          id: id
+          source_id: source_id
+        sources:
+        - availability_status: availability_status
+          uid: uid
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          name: Sample Provider
+          created_at: 2000-01-23T04:56:07.000+00:00
+          source_ref: source_ref
+          source_type_id: source_type_id
+          id: id
+          version: 6.5.0
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        - availability_status: availability_status
+          uid: uid
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          name: Sample Provider
+          created_at: 2000-01-23T04:56:07.000+00:00
+          source_ref: source_ref
+          source_type_id: source_type_id
+          id: id
+          version: 6.5.0
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        superkey: false
+        applications:
+        - availability_status: availability_status
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          extra: '{}'
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          application_type_id: application_type_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          source_id: source_id
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        - availability_status: availability_status
+          availability_status_error: availability_status_error
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          extra: '{}'
+          last_available_at: 2000-01-23T04:56:07.000+00:00
+          application_type_id: application_type_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          source_id: source_id
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+        authentications:
+        - last_available_at: 2000-01-23T04:56:07.000+00:00
+          resource_type: Endpoint
+          authtype: openshift_default
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          password: password
+          availability_status_error: availability_status_error
+          extra:
+            azure:
+              tenant_id: tenant_id
+          name: OpenShift default
+          resource_id: resource_id
+          id: id
+          source_id: source_id
+          status_details: status_details
+          status: valid
+          username: user@example.com
+        - last_available_at: 2000-01-23T04:56:07.000+00:00
+          resource_type: Endpoint
+          authtype: openshift_default
+          last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          password: password
+          availability_status_error: availability_status_error
+          extra:
+            azure:
+              tenant_id: tenant_id
+          name: OpenShift default
+          resource_id: resource_id
+          id: id
+          source_id: source_id
+          status_details: status_details
+          status: valid
+          username: user@example.com
+      properties:
+        superkey:
+          default: false
+          type: boolean
+        sources:
+          items:
+            $ref: '#/components/schemas/Source'
+          type: array
+        endpoints:
+          items:
+            $ref: '#/components/schemas/Endpoint'
+          type: array
+        applications:
+          items:
+            $ref: '#/components/schemas/Application'
+          type: array
+        authentications:
+          items:
+            $ref: '#/components/schemas/Authentication'
+          type: array
+      type: object
+    SuperKeyRequest:
+      description: Details on the provided superkey request, most notably the provider
+        and type of request(s)
+      example:
+        provider: amazon
+        source_id: source_id
+        applications:
+        - cost-management
+        - cost-management
+      properties:
+        provider:
+          enum:
+          - amazon
+          type: string
+        applications:
+          items:
+            enum:
+            - cost-management
+            - subscription-watch
+            type: string
+          type: array
+        source_id:
+          description: |
+            the superkey source to create applications under. only required if not included in a `bulk_create` request
+          type: string
+      type: object
     Authentication_extra_azure:
       example:
         tenant_id: tenant_id
@@ -2588,6 +2870,85 @@ components:
           type: string
         detail:
           example: Record not found
+          type: string
+      type: object
+    BulkCreatePayload_sources:
+      example:
+        name: name
+        type: amazon
+      properties:
+        name:
+          type: string
+        type:
+          description: Source Type from supported types
+          enum:
+          - amazon
+          - azure
+          - ansible-tower
+          - openshift
+          - satellite
+          - google
+          type: string
+      type: object
+    BulkCreatePayload_endpoints:
+      example:
+        path: path
+        scheme: scheme
+        verify_ssl: true
+        port: 0
+        host: host
+        source_name: source_name
+      properties:
+        scheme:
+          type: string
+        host:
+          type: string
+        path:
+          type: string
+        port:
+          type: integer
+        verify_ssl:
+          type: boolean
+        source_name:
+          type: string
+      type: object
+    BulkCreatePayload_applications:
+      example:
+        extra: '{}'
+        type: type
+        source_name: source_name
+      properties:
+        type:
+          type: string
+        extra:
+          type: object
+        source_name:
+          type: string
+      type: object
+    BulkCreatePayload_authentications:
+      example:
+        password: password
+        extra: '{}'
+        resource_type: application
+        resource_name: resource_name
+        authtype: authtype
+        username: username
+      properties:
+        authtype:
+          type: string
+        extra:
+          type: object
+        username:
+          type: string
+        password:
+          type: string
+        resource_name:
+          type: string
+        resource_type:
+          enum:
+          - application
+          - endpoint
+          - source
           type: string
       type: object
   securitySchemes:
