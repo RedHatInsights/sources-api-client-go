@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**AppCreationWorkflow** | Pointer to **string** |  | [optional] 
 **AvailabilityStatus** | Pointer to **string** |  | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] [readonly] 
 **Id** | Pointer to **string** | ID of the resource | [optional] [readonly] 
@@ -35,6 +36,31 @@ will change when the set of required properties is changed
 NewSourceWithDefaults instantiates a new Source object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetAppCreationWorkflow
+
+`func (o *Source) GetAppCreationWorkflow() string`
+
+GetAppCreationWorkflow returns the AppCreationWorkflow field if non-nil, zero value otherwise.
+
+### GetAppCreationWorkflowOk
+
+`func (o *Source) GetAppCreationWorkflowOk() (*string, bool)`
+
+GetAppCreationWorkflowOk returns a tuple with the AppCreationWorkflow field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAppCreationWorkflow
+
+`func (o *Source) SetAppCreationWorkflow(v string)`
+
+SetAppCreationWorkflow sets AppCreationWorkflow field to given value.
+
+### HasAppCreationWorkflow
+
+`func (o *Source) HasAppCreationWorkflow() bool`
+
+HasAppCreationWorkflow returns a boolean if a field has been set.
 
 ### GetAvailabilityStatus
 

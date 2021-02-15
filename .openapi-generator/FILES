@@ -36,7 +36,6 @@ docs/Source.md
 docs/SourceType.md
 docs/SourceTypesCollection.md
 docs/SourcesCollection.md
-docs/SuperKeyRequest.md
 git_push.sh
 go.mod
 go.sum
@@ -70,6 +69,5 @@ model_source.go
 model_source_type.go
 model_source_types_collection.go
 model_sources_collection.go
-model_super_key_request.go
 response.go
 utils.go

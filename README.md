@@ -117,8 +117,6 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**ShowEndpoint**](docs/DefaultApi.md#showendpoint) | **Get** /endpoints/{id} | Show an existing Endpoint
 *DefaultApi* | [**ShowSource**](docs/DefaultApi.md#showsource) | **Get** /sources/{id} | Show an existing Source
 *DefaultApi* | [**ShowSourceType**](docs/DefaultApi.md#showsourcetype) | **Get** /source_types/{id} | Show an existing SourceType
-*DefaultApi* | [**SuperkeyCreate**](docs/DefaultApi.md#superkeycreate) | **Post** /superkey | Run the superkey workflow for a specified source for specified application types
-*DefaultApi* | [**SuperkeyDestroyApplication**](docs/DefaultApi.md#superkeydestroyapplication) | **Delete** /superkey/{id} | Destroy the specified superkey application
 *DefaultApi* | [**UpdateApplication**](docs/DefaultApi.md#updateapplication) | **Patch** /applications/{id} | Update an existing Application
 *DefaultApi* | [**UpdateApplicationAuthentication**](docs/DefaultApi.md#updateapplicationauthentication) | **Patch** /application_authentications/{id} | Update an existing ApplicationAuthentication
 *DefaultApi* | [**UpdateAuthentication**](docs/DefaultApi.md#updateauthentication) | **Patch** /authentications/{id} | Update an existing Authentication
@@ -158,7 +156,6 @@ Class | Method | HTTP request | Description
  - [SourceType](docs/SourceType.md)
  - [SourceTypesCollection](docs/SourceTypesCollection.md)
  - [SourcesCollection](docs/SourcesCollection.md)
- - [SuperKeyRequest](docs/SuperKeyRequest.md)
 
 
 ## Documentation For Authorization

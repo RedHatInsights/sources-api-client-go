@@ -18,6 +18,7 @@ import (
 
 // Source struct for Source
 type Source struct {
+	AppCreationWorkflow *string `json:"app_creation_workflow,omitempty"`
 	AvailabilityStatus *string `json:"availability_status,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// ID of the resource
@@ -49,6 +50,38 @@ func NewSource() *Source {
 func NewSourceWithDefaults() *Source {
 	this := Source{}
 	return &this
+}
+
+// GetAppCreationWorkflow returns the AppCreationWorkflow field value if set, zero value otherwise.
+func (o *Source) GetAppCreationWorkflow() string {
+	if o == nil || o.AppCreationWorkflow == nil {
+		var ret string
+		return ret
+	}
+	return *o.AppCreationWorkflow
+}
+
+// GetAppCreationWorkflowOk returns a tuple with the AppCreationWorkflow field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Source) GetAppCreationWorkflowOk() (*string, bool) {
+	if o == nil || o.AppCreationWorkflow == nil {
+		return nil, false
+	}
+	return o.AppCreationWorkflow, true
+}
+
+// HasAppCreationWorkflow returns a boolean if a field has been set.
+func (o *Source) HasAppCreationWorkflow() bool {
+	if o != nil && o.AppCreationWorkflow != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetAppCreationWorkflow gets a reference to the given string and assigns it to the AppCreationWorkflow field.
+func (o *Source) SetAppCreationWorkflow(v string) {
+	o.AppCreationWorkflow = &v
 }
 
 // GetAvailabilityStatus returns the AvailabilityStatus field value if set, zero value otherwise.
@@ -437,6 +470,9 @@ func (o *Source) SetVersion(v string) {
 
 func (o Source) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if o.AppCreationWorkflow != nil {
+		toSerialize["app_creation_workflow"] = o.AppCreationWorkflow
+	}
 	if o.AvailabilityStatus != nil {
 		toSerialize["availability_status"] = o.AvailabilityStatus
 	}

@@ -1688,43 +1688,6 @@ paths:
         "400":
           description: Bad Request
       summary: Bulk-create a Source and specified sub-resources
-  /superkey:
-    post:
-      description: Run the superkey workflow for a specified source for specified
-        application types
-      operationId: superkeyCreate
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SuperKeyRequest'
-      responses:
-        "202":
-          description: Request accepted.
-        "400":
-          description: Bad Request
-      summary: Run the superkey workflow for a specified source for specified application
-        types
-  /superkey/{id}:
-    delete:
-      description: Destroy the specified superkey on specified application
-      operationId: superkeyDestroyApplication
-      parameters:
-      - description: ID of the resource
-        explode: false
-        in: path
-        name: id
-        required: true
-        schema:
-          pattern: ^\d+$
-          type: string
-        style: simple
-      responses:
-        "202":
-          description: Superkey DELETE request queued.
-        "404":
-          description: Application not found or not a valid superkey Application
-      summary: Destroy the specified superkey application
 components:
   parameters:
     ID:
@@ -2419,19 +2382,25 @@ components:
     Source:
       additionalProperties: false
       example:
+        app_creation_workflow: manual_configuration
+        last_available_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        source_ref: source_ref
+        source_type_id: source_type_id
+        version: 6.5.0
+        last_checked_at: 2000-01-23T04:56:07.000+00:00
         availability_status: availability_status
         uid: uid
         updated_at: 2000-01-23T04:56:07.000+00:00
         imported: imported
-        last_available_at: 2000-01-23T04:56:07.000+00:00
         name: Sample Provider
-        created_at: 2000-01-23T04:56:07.000+00:00
-        source_ref: source_ref
-        source_type_id: source_type_id
         id: id
-        version: 6.5.0
-        last_checked_at: 2000-01-23T04:56:07.000+00:00
       properties:
+        app_creation_workflow:
+          enum:
+          - manual_configuration
+          - account_authorization
+          type: string
         availability_status:
           type: string
         created_at:
@@ -2556,30 +2525,32 @@ components:
     SourcesCollection:
       example:
         data:
-        - availability_status: availability_status
-          uid: uid
-          updated_at: 2000-01-23T04:56:07.000+00:00
-          imported: imported
+        - app_creation_workflow: manual_configuration
           last_available_at: 2000-01-23T04:56:07.000+00:00
-          name: Sample Provider
           created_at: 2000-01-23T04:56:07.000+00:00
           source_ref: source_ref
           source_type_id: source_type_id
-          id: id
           version: 6.5.0
           last_checked_at: 2000-01-23T04:56:07.000+00:00
-        - availability_status: availability_status
+          availability_status: availability_status
           uid: uid
           updated_at: 2000-01-23T04:56:07.000+00:00
           imported: imported
-          last_available_at: 2000-01-23T04:56:07.000+00:00
           name: Sample Provider
+          id: id
+        - app_creation_workflow: manual_configuration
+          last_available_at: 2000-01-23T04:56:07.000+00:00
           created_at: 2000-01-23T04:56:07.000+00:00
           source_ref: source_ref
           source_type_id: source_type_id
-          id: id
           version: 6.5.0
           last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          uid: uid
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          name: Sample Provider
+          id: id
         meta:
           offset: 1
           count: 0
@@ -2616,20 +2587,20 @@ components:
           source_name: source_name
         sources:
         - name: name
+          source_ref: source_ref
+          source_type_id: source_type_id
           type: amazon
         - name: name
+          source_ref: source_ref
+          source_type_id: source_type_id
           type: amazon
-        superkey_request:
-          provider: amazon
-          source_id: source_id
-          applications:
-          - cost-management
-          - cost-management
         applications:
         - extra: '{}'
+          application_type_id: application_type_id
           type: type
           source_name: source_name
         - extra: '{}'
+          application_type_id: application_type_id
           type: type
           source_name: source_name
         authentications:
@@ -2646,8 +2617,6 @@ components:
           authtype: authtype
           username: username
       properties:
-        superkey_request:
-          $ref: '#/components/schemas/SuperKeyRequest'
         sources:
           description: |
             Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically
@@ -2720,30 +2689,32 @@ components:
           id: id
           source_id: source_id
         sources:
-        - availability_status: availability_status
-          uid: uid
-          updated_at: 2000-01-23T04:56:07.000+00:00
-          imported: imported
+        - app_creation_workflow: manual_configuration
           last_available_at: 2000-01-23T04:56:07.000+00:00
-          name: Sample Provider
           created_at: 2000-01-23T04:56:07.000+00:00
           source_ref: source_ref
           source_type_id: source_type_id
-          id: id
           version: 6.5.0
           last_checked_at: 2000-01-23T04:56:07.000+00:00
-        - availability_status: availability_status
+          availability_status: availability_status
           uid: uid
           updated_at: 2000-01-23T04:56:07.000+00:00
           imported: imported
-          last_available_at: 2000-01-23T04:56:07.000+00:00
           name: Sample Provider
+          id: id
+        - app_creation_workflow: manual_configuration
+          last_available_at: 2000-01-23T04:56:07.000+00:00
           created_at: 2000-01-23T04:56:07.000+00:00
           source_ref: source_ref
           source_type_id: source_type_id
-          id: id
           version: 6.5.0
           last_checked_at: 2000-01-23T04:56:07.000+00:00
+          availability_status: availability_status
+          uid: uid
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          imported: imported
+          name: Sample Provider
+          id: id
         superkey: false
         applications:
         - availability_status: availability_status
@@ -2822,32 +2793,6 @@ components:
             $ref: '#/components/schemas/Authentication'
           type: array
       type: object
-    SuperKeyRequest:
-      description: Details on the provided superkey request, most notably the provider
-        and type of request(s)
-      example:
-        provider: amazon
-        source_id: source_id
-        applications:
-        - cost-management
-        - cost-management
-      properties:
-        provider:
-          enum:
-          - amazon
-          type: string
-        applications:
-          items:
-            enum:
-            - cost-management
-            - subscription-watch
-            type: string
-          type: array
-        source_id:
-          description: |
-            the superkey source to create applications under. only required if not included in a `bulk_create` request
-          type: string
-      type: object
     Authentication_extra_azure:
       example:
         tenant_id: tenant_id
@@ -2875,6 +2820,8 @@ components:
     BulkCreatePayload_sources:
       example:
         name: name
+        source_ref: source_ref
+        source_type_id: source_type_id
         type: amazon
       properties:
         name:
@@ -2888,6 +2835,10 @@ components:
           - openshift
           - satellite
           - google
+          type: string
+        source_ref:
+          type: string
+        source_type_id:
           type: string
       type: object
     BulkCreatePayload_endpoints:
@@ -2915,10 +2866,13 @@ components:
     BulkCreatePayload_applications:
       example:
         extra: '{}'
+        application_type_id: application_type_id
         type: type
         source_name: source_name
       properties:
         type:
+          type: string
+        application_type_id:
           type: string
         extra:
           type: object

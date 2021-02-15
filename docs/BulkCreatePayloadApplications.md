@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | Pointer to **string** |  | [optional] 
+**ApplicationTypeId** | Pointer to **string** |  | [optional] 
 **Extra** | Pointer to **map[string]interface{}** |  | [optional] 
 **SourceName** | Pointer to **string** |  | [optional] 
 
@@ -51,6 +52,31 @@ SetType sets Type field to given value.
 `func (o *BulkCreatePayloadApplications) HasType() bool`
 
 HasType returns a boolean if a field has been set.
+
+### GetApplicationTypeId
+
+`func (o *BulkCreatePayloadApplications) GetApplicationTypeId() string`
+
+GetApplicationTypeId returns the ApplicationTypeId field if non-nil, zero value otherwise.
+
+### GetApplicationTypeIdOk
+
+`func (o *BulkCreatePayloadApplications) GetApplicationTypeIdOk() (*string, bool)`
+
+GetApplicationTypeIdOk returns a tuple with the ApplicationTypeId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetApplicationTypeId
+
+`func (o *BulkCreatePayloadApplications) SetApplicationTypeId(v string)`
+
+SetApplicationTypeId sets ApplicationTypeId field to given value.
+
+### HasApplicationTypeId
+
+`func (o *BulkCreatePayloadApplications) HasApplicationTypeId() bool`
+
+HasApplicationTypeId returns a boolean if a field has been set.
 
 ### GetExtra
 

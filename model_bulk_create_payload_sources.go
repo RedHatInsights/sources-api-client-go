@@ -20,6 +20,8 @@ type BulkCreatePayloadSources struct {
 	Name *string `json:"name,omitempty"`
 	// Source Type from supported types
 	Type *string `json:"type,omitempty"`
+	SourceRef *string `json:"source_ref,omitempty"`
+	SourceTypeId *string `json:"source_type_id,omitempty"`
 }
 
 // NewBulkCreatePayloadSources instantiates a new BulkCreatePayloadSources object
@@ -103,6 +105,70 @@ func (o *BulkCreatePayloadSources) SetType(v string) {
 	o.Type = &v
 }
 
+// GetSourceRef returns the SourceRef field value if set, zero value otherwise.
+func (o *BulkCreatePayloadSources) GetSourceRef() string {
+	if o == nil || o.SourceRef == nil {
+		var ret string
+		return ret
+	}
+	return *o.SourceRef
+}
+
+// GetSourceRefOk returns a tuple with the SourceRef field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BulkCreatePayloadSources) GetSourceRefOk() (*string, bool) {
+	if o == nil || o.SourceRef == nil {
+		return nil, false
+	}
+	return o.SourceRef, true
+}
+
+// HasSourceRef returns a boolean if a field has been set.
+func (o *BulkCreatePayloadSources) HasSourceRef() bool {
+	if o != nil && o.SourceRef != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSourceRef gets a reference to the given string and assigns it to the SourceRef field.
+func (o *BulkCreatePayloadSources) SetSourceRef(v string) {
+	o.SourceRef = &v
+}
+
+// GetSourceTypeId returns the SourceTypeId field value if set, zero value otherwise.
+func (o *BulkCreatePayloadSources) GetSourceTypeId() string {
+	if o == nil || o.SourceTypeId == nil {
+		var ret string
+		return ret
+	}
+	return *o.SourceTypeId
+}
+
+// GetSourceTypeIdOk returns a tuple with the SourceTypeId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BulkCreatePayloadSources) GetSourceTypeIdOk() (*string, bool) {
+	if o == nil || o.SourceTypeId == nil {
+		return nil, false
+	}
+	return o.SourceTypeId, true
+}
+
+// HasSourceTypeId returns a boolean if a field has been set.
+func (o *BulkCreatePayloadSources) HasSourceTypeId() bool {
+	if o != nil && o.SourceTypeId != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSourceTypeId gets a reference to the given string and assigns it to the SourceTypeId field.
+func (o *BulkCreatePayloadSources) SetSourceTypeId(v string) {
+	o.SourceTypeId = &v
+}
+
 func (o BulkCreatePayloadSources) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
@@ -110,6 +176,12 @@ func (o BulkCreatePayloadSources) MarshalJSON() ([]byte, error) {
 	}
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
+	}
+	if o.SourceRef != nil {
+		toSerialize["source_ref"] = o.SourceRef
+	}
+	if o.SourceTypeId != nil {
+		toSerialize["source_type_id"] = o.SourceTypeId
 	}
 	return json.Marshal(toSerialize)
 }

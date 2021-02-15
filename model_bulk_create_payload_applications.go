@@ -18,6 +18,7 @@ import (
 // BulkCreatePayloadApplications struct for BulkCreatePayloadApplications
 type BulkCreatePayloadApplications struct {
 	Type *string `json:"type,omitempty"`
+	ApplicationTypeId *string `json:"application_type_id,omitempty"`
 	Extra *map[string]interface{} `json:"extra,omitempty"`
 	SourceName *string `json:"source_name,omitempty"`
 }
@@ -69,6 +70,38 @@ func (o *BulkCreatePayloadApplications) HasType() bool {
 // SetType gets a reference to the given string and assigns it to the Type field.
 func (o *BulkCreatePayloadApplications) SetType(v string) {
 	o.Type = &v
+}
+
+// GetApplicationTypeId returns the ApplicationTypeId field value if set, zero value otherwise.
+func (o *BulkCreatePayloadApplications) GetApplicationTypeId() string {
+	if o == nil || o.ApplicationTypeId == nil {
+		var ret string
+		return ret
+	}
+	return *o.ApplicationTypeId
+}
+
+// GetApplicationTypeIdOk returns a tuple with the ApplicationTypeId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BulkCreatePayloadApplications) GetApplicationTypeIdOk() (*string, bool) {
+	if o == nil || o.ApplicationTypeId == nil {
+		return nil, false
+	}
+	return o.ApplicationTypeId, true
+}
+
+// HasApplicationTypeId returns a boolean if a field has been set.
+func (o *BulkCreatePayloadApplications) HasApplicationTypeId() bool {
+	if o != nil && o.ApplicationTypeId != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetApplicationTypeId gets a reference to the given string and assigns it to the ApplicationTypeId field.
+func (o *BulkCreatePayloadApplications) SetApplicationTypeId(v string) {
+	o.ApplicationTypeId = &v
 }
 
 // GetExtra returns the Extra field value if set, zero value otherwise.
@@ -139,6 +172,9 @@ func (o BulkCreatePayloadApplications) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
+	}
+	if o.ApplicationTypeId != nil {
+		toSerialize["application_type_id"] = o.ApplicationTypeId
 	}
 	if o.Extra != nil {
 		toSerialize["extra"] = o.Extra

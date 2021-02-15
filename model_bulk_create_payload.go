@@ -17,7 +17,6 @@ import (
 
 // BulkCreatePayload struct for BulkCreatePayload
 type BulkCreatePayload struct {
-	SuperkeyRequest *SuperKeyRequest `json:"superkey_request,omitempty"`
 	// Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically be set based on the name. 
 	Sources *[]BulkCreatePayloadSources `json:"sources,omitempty"`
 	// Array of Endpoint objects to create. The operation looks up the parent source by the `source_name` attribute so the `source_name` must match one of the `source`'s names in the payload. 
@@ -43,38 +42,6 @@ func NewBulkCreatePayload() *BulkCreatePayload {
 func NewBulkCreatePayloadWithDefaults() *BulkCreatePayload {
 	this := BulkCreatePayload{}
 	return &this
-}
-
-// GetSuperkeyRequest returns the SuperkeyRequest field value if set, zero value otherwise.
-func (o *BulkCreatePayload) GetSuperkeyRequest() SuperKeyRequest {
-	if o == nil || o.SuperkeyRequest == nil {
-		var ret SuperKeyRequest
-		return ret
-	}
-	return *o.SuperkeyRequest
-}
-
-// GetSuperkeyRequestOk returns a tuple with the SuperkeyRequest field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BulkCreatePayload) GetSuperkeyRequestOk() (*SuperKeyRequest, bool) {
-	if o == nil || o.SuperkeyRequest == nil {
-		return nil, false
-	}
-	return o.SuperkeyRequest, true
-}
-
-// HasSuperkeyRequest returns a boolean if a field has been set.
-func (o *BulkCreatePayload) HasSuperkeyRequest() bool {
-	if o != nil && o.SuperkeyRequest != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetSuperkeyRequest gets a reference to the given SuperKeyRequest and assigns it to the SuperkeyRequest field.
-func (o *BulkCreatePayload) SetSuperkeyRequest(v SuperKeyRequest) {
-	o.SuperkeyRequest = &v
 }
 
 // GetSources returns the Sources field value if set, zero value otherwise.
@@ -207,9 +174,6 @@ func (o *BulkCreatePayload) SetAuthentications(v []BulkCreatePayloadAuthenticati
 
 func (o BulkCreatePayload) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.SuperkeyRequest != nil {
-		toSerialize["superkey_request"] = o.SuperkeyRequest
-	}
 	if o.Sources != nil {
 		toSerialize["sources"] = o.Sources
 	}

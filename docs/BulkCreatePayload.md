@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SuperkeyRequest** | Pointer to [**SuperKeyRequest**](SuperKeyRequest.md) |  | [optional] 
 **Sources** | Pointer to [**[]BulkCreatePayloadSources**](BulkCreatePayloadSources.md) | Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically be set based on the name.  | [optional] 
 **Endpoints** | Pointer to [**[]BulkCreatePayloadEndpoints**](BulkCreatePayloadEndpoints.md) | Array of Endpoint objects to create. The operation looks up the parent source by the &#x60;source_name&#x60; attribute so the &#x60;source_name&#x60; must match one of the &#x60;source&#x60;&#39;s names in the payload.  | [optional] 
 **Applications** | Pointer to [**[]BulkCreatePayloadApplications**](BulkCreatePayloadApplications.md) | Array of Application objects to create. The operation looks up the parent Source by the &#x60;source_name&#x60; attribute so the &#x60;source_name&#x60; must match one of the &#x60;source&#x60;&#39;s names in the payload.  application_type_id will be automatically looked up and set by the &#x60;type&#x60; attribute via regex.  | [optional] 
@@ -28,31 +27,6 @@ will change when the set of required properties is changed
 NewBulkCreatePayloadWithDefaults instantiates a new BulkCreatePayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetSuperkeyRequest
-
-`func (o *BulkCreatePayload) GetSuperkeyRequest() SuperKeyRequest`
-
-GetSuperkeyRequest returns the SuperkeyRequest field if non-nil, zero value otherwise.
-
-### GetSuperkeyRequestOk
-
-`func (o *BulkCreatePayload) GetSuperkeyRequestOk() (*SuperKeyRequest, bool)`
-
-GetSuperkeyRequestOk returns a tuple with the SuperkeyRequest field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSuperkeyRequest
-
-`func (o *BulkCreatePayload) SetSuperkeyRequest(v SuperKeyRequest)`
-
-SetSuperkeyRequest sets SuperkeyRequest field to given value.
-
-### HasSuperkeyRequest
-
-`func (o *BulkCreatePayload) HasSuperkeyRequest() bool`
-
-HasSuperkeyRequest returns a boolean if a field has been set.
 
 ### GetSources
 

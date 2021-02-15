@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | Pointer to **string** |  | [optional] 
 **Type** | Pointer to **string** | Source Type from supported types | [optional] 
+**SourceRef** | Pointer to **string** |  | [optional] 
+**SourceTypeId** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -75,6 +77,56 @@ SetType sets Type field to given value.
 `func (o *BulkCreatePayloadSources) HasType() bool`
 
 HasType returns a boolean if a field has been set.
+
+### GetSourceRef
+
+`func (o *BulkCreatePayloadSources) GetSourceRef() string`
+
+GetSourceRef returns the SourceRef field if non-nil, zero value otherwise.
+
+### GetSourceRefOk
+
+`func (o *BulkCreatePayloadSources) GetSourceRefOk() (*string, bool)`
+
+GetSourceRefOk returns a tuple with the SourceRef field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSourceRef
+
+`func (o *BulkCreatePayloadSources) SetSourceRef(v string)`
+
+SetSourceRef sets SourceRef field to given value.
+
+### HasSourceRef
+
+`func (o *BulkCreatePayloadSources) HasSourceRef() bool`
+
+HasSourceRef returns a boolean if a field has been set.
+
+### GetSourceTypeId
+
+`func (o *BulkCreatePayloadSources) GetSourceTypeId() string`
+
+GetSourceTypeId returns the SourceTypeId field if non-nil, zero value otherwise.
+
+### GetSourceTypeIdOk
+
+`func (o *BulkCreatePayloadSources) GetSourceTypeIdOk() (*string, bool)`
+
+GetSourceTypeIdOk returns a tuple with the SourceTypeId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSourceTypeId
+
+`func (o *BulkCreatePayloadSources) SetSourceTypeId(v string)`
+
+SetSourceTypeId sets SourceTypeId field to given value.
+
+### HasSourceTypeId
+
+`func (o *BulkCreatePayloadSources) HasSourceTypeId() bool`
+
+HasSourceTypeId returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
