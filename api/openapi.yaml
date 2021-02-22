@@ -2589,19 +2589,19 @@ components:
         - name: name
           source_ref: source_ref
           source_type_id: source_type_id
-          type: amazon
+          source_type_name: amazon
         - name: name
           source_ref: source_ref
           source_type_id: source_type_id
-          type: amazon
+          source_type_name: amazon
         applications:
         - extra: '{}'
           application_type_id: application_type_id
-          type: type
+          application_type_name: application_type_name
           source_name: source_name
         - extra: '{}'
           application_type_id: application_type_id
-          type: type
+          application_type_name: application_type_name
           source_name: source_name
         authentications:
         - password: password
@@ -2620,7 +2620,7 @@ components:
         sources:
           description: |
             Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically
-            be set based on the name.
+            be set based on the `source_type_name`.
           items:
             $ref: '#/components/schemas/BulkCreatePayload_sources'
           type: array
@@ -2636,7 +2636,7 @@ components:
             Array of Application objects to create. The operation looks up the parent Source by the `source_name` attribute
             so the `source_name` must match one of the `source`'s names in the payload.
 
-            application_type_id will be automatically looked up and set by the `type` attribute via regex.
+            application_type_id will be automatically looked up and set by the `application_type_name` attribute via regex.
           items:
             $ref: '#/components/schemas/BulkCreatePayload_applications'
           type: array
@@ -2822,11 +2822,11 @@ components:
         name: name
         source_ref: source_ref
         source_type_id: source_type_id
-        type: amazon
+        source_type_name: amazon
       properties:
         name:
           type: string
-        type:
+        source_type_name:
           description: Source Type from supported types
           enum:
           - amazon
@@ -2867,10 +2867,10 @@ components:
       example:
         extra: '{}'
         application_type_id: application_type_id
-        type: type
+        application_type_name: application_type_name
         source_name: source_name
       properties:
-        type:
+        application_type_name:
           type: string
         application_type_id:
           type: string

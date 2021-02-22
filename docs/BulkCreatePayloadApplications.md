@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | Pointer to **string** |  | [optional] 
+**ApplicationTypeName** | Pointer to **string** |  | [optional] 
 **ApplicationTypeId** | Pointer to **string** |  | [optional] 
 **Extra** | Pointer to **map[string]interface{}** |  | [optional] 
 **SourceName** | Pointer to **string** |  | [optional] 
@@ -28,30 +28,30 @@ NewBulkCreatePayloadApplicationsWithDefaults instantiates a new BulkCreatePayloa
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetType
+### GetApplicationTypeName
 
-`func (o *BulkCreatePayloadApplications) GetType() string`
+`func (o *BulkCreatePayloadApplications) GetApplicationTypeName() string`
 
-GetType returns the Type field if non-nil, zero value otherwise.
+GetApplicationTypeName returns the ApplicationTypeName field if non-nil, zero value otherwise.
 
-### GetTypeOk
+### GetApplicationTypeNameOk
 
-`func (o *BulkCreatePayloadApplications) GetTypeOk() (*string, bool)`
+`func (o *BulkCreatePayloadApplications) GetApplicationTypeNameOk() (*string, bool)`
 
-GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+GetApplicationTypeNameOk returns a tuple with the ApplicationTypeName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetType
+### SetApplicationTypeName
 
-`func (o *BulkCreatePayloadApplications) SetType(v string)`
+`func (o *BulkCreatePayloadApplications) SetApplicationTypeName(v string)`
 
-SetType sets Type field to given value.
+SetApplicationTypeName sets ApplicationTypeName field to given value.
 
-### HasType
+### HasApplicationTypeName
 
-`func (o *BulkCreatePayloadApplications) HasType() bool`
+`func (o *BulkCreatePayloadApplications) HasApplicationTypeName() bool`
 
-HasType returns a boolean if a field has been set.
+HasApplicationTypeName returns a boolean if a field has been set.
 
 ### GetApplicationTypeId
 

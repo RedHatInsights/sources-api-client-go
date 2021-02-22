@@ -19,7 +19,7 @@ import (
 type BulkCreatePayloadSources struct {
 	Name *string `json:"name,omitempty"`
 	// Source Type from supported types
-	Type *string `json:"type,omitempty"`
+	SourceTypeName *string `json:"source_type_name,omitempty"`
 	SourceRef *string `json:"source_ref,omitempty"`
 	SourceTypeId *string `json:"source_type_id,omitempty"`
 }
@@ -73,36 +73,36 @@ func (o *BulkCreatePayloadSources) SetName(v string) {
 	o.Name = &v
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *BulkCreatePayloadSources) GetType() string {
-	if o == nil || o.Type == nil {
+// GetSourceTypeName returns the SourceTypeName field value if set, zero value otherwise.
+func (o *BulkCreatePayloadSources) GetSourceTypeName() string {
+	if o == nil || o.SourceTypeName == nil {
 		var ret string
 		return ret
 	}
-	return *o.Type
+	return *o.SourceTypeName
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetSourceTypeNameOk returns a tuple with the SourceTypeName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BulkCreatePayloadSources) GetTypeOk() (*string, bool) {
-	if o == nil || o.Type == nil {
+func (o *BulkCreatePayloadSources) GetSourceTypeNameOk() (*string, bool) {
+	if o == nil || o.SourceTypeName == nil {
 		return nil, false
 	}
-	return o.Type, true
+	return o.SourceTypeName, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *BulkCreatePayloadSources) HasType() bool {
-	if o != nil && o.Type != nil {
+// HasSourceTypeName returns a boolean if a field has been set.
+func (o *BulkCreatePayloadSources) HasSourceTypeName() bool {
+	if o != nil && o.SourceTypeName != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *BulkCreatePayloadSources) SetType(v string) {
-	o.Type = &v
+// SetSourceTypeName gets a reference to the given string and assigns it to the SourceTypeName field.
+func (o *BulkCreatePayloadSources) SetSourceTypeName(v string) {
+	o.SourceTypeName = &v
 }
 
 // GetSourceRef returns the SourceRef field value if set, zero value otherwise.
@@ -174,8 +174,8 @@ func (o BulkCreatePayloadSources) MarshalJSON() ([]byte, error) {
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
-	if o.Type != nil {
-		toSerialize["type"] = o.Type
+	if o.SourceTypeName != nil {
+		toSerialize["source_type_name"] = o.SourceTypeName
 	}
 	if o.SourceRef != nil {
 		toSerialize["source_ref"] = o.SourceRef

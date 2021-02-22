@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | Pointer to **string** |  | [optional] 
-**Type** | Pointer to **string** | Source Type from supported types | [optional] 
+**SourceTypeName** | Pointer to **string** | Source Type from supported types | [optional] 
 **SourceRef** | Pointer to **string** |  | [optional] 
 **SourceTypeId** | Pointer to **string** |  | [optional] 
 
@@ -53,30 +53,30 @@ SetName sets Name field to given value.
 
 HasName returns a boolean if a field has been set.
 
-### GetType
+### GetSourceTypeName
 
-`func (o *BulkCreatePayloadSources) GetType() string`
+`func (o *BulkCreatePayloadSources) GetSourceTypeName() string`
 
-GetType returns the Type field if non-nil, zero value otherwise.
+GetSourceTypeName returns the SourceTypeName field if non-nil, zero value otherwise.
 
-### GetTypeOk
+### GetSourceTypeNameOk
 
-`func (o *BulkCreatePayloadSources) GetTypeOk() (*string, bool)`
+`func (o *BulkCreatePayloadSources) GetSourceTypeNameOk() (*string, bool)`
 
-GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+GetSourceTypeNameOk returns a tuple with the SourceTypeName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetType
+### SetSourceTypeName
 
-`func (o *BulkCreatePayloadSources) SetType(v string)`
+`func (o *BulkCreatePayloadSources) SetSourceTypeName(v string)`
 
-SetType sets Type field to given value.
+SetSourceTypeName sets SourceTypeName field to given value.
 
-### HasType
+### HasSourceTypeName
 
-`func (o *BulkCreatePayloadSources) HasType() bool`
+`func (o *BulkCreatePayloadSources) HasSourceTypeName() bool`
 
-HasType returns a boolean if a field has been set.
+HasSourceTypeName returns a boolean if a field has been set.
 
 ### GetSourceRef
 
