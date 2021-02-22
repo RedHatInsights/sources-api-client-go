@@ -17,7 +17,7 @@ import (
 
 // BulkCreatePayloadApplications struct for BulkCreatePayloadApplications
 type BulkCreatePayloadApplications struct {
-	Type *string `json:"type,omitempty"`
+	ApplicationTypeName *string `json:"application_type_name,omitempty"`
 	ApplicationTypeId *string `json:"application_type_id,omitempty"`
 	Extra *map[string]interface{} `json:"extra,omitempty"`
 	SourceName *string `json:"source_name,omitempty"`
@@ -40,36 +40,36 @@ func NewBulkCreatePayloadApplicationsWithDefaults() *BulkCreatePayloadApplicatio
 	return &this
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *BulkCreatePayloadApplications) GetType() string {
-	if o == nil || o.Type == nil {
+// GetApplicationTypeName returns the ApplicationTypeName field value if set, zero value otherwise.
+func (o *BulkCreatePayloadApplications) GetApplicationTypeName() string {
+	if o == nil || o.ApplicationTypeName == nil {
 		var ret string
 		return ret
 	}
-	return *o.Type
+	return *o.ApplicationTypeName
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetApplicationTypeNameOk returns a tuple with the ApplicationTypeName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BulkCreatePayloadApplications) GetTypeOk() (*string, bool) {
-	if o == nil || o.Type == nil {
+func (o *BulkCreatePayloadApplications) GetApplicationTypeNameOk() (*string, bool) {
+	if o == nil || o.ApplicationTypeName == nil {
 		return nil, false
 	}
-	return o.Type, true
+	return o.ApplicationTypeName, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *BulkCreatePayloadApplications) HasType() bool {
-	if o != nil && o.Type != nil {
+// HasApplicationTypeName returns a boolean if a field has been set.
+func (o *BulkCreatePayloadApplications) HasApplicationTypeName() bool {
+	if o != nil && o.ApplicationTypeName != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *BulkCreatePayloadApplications) SetType(v string) {
-	o.Type = &v
+// SetApplicationTypeName gets a reference to the given string and assigns it to the ApplicationTypeName field.
+func (o *BulkCreatePayloadApplications) SetApplicationTypeName(v string) {
+	o.ApplicationTypeName = &v
 }
 
 // GetApplicationTypeId returns the ApplicationTypeId field value if set, zero value otherwise.
@@ -170,8 +170,8 @@ func (o *BulkCreatePayloadApplications) SetSourceName(v string) {
 
 func (o BulkCreatePayloadApplications) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Type != nil {
-		toSerialize["type"] = o.Type
+	if o.ApplicationTypeName != nil {
+		toSerialize["application_type_name"] = o.ApplicationTypeName
 	}
 	if o.ApplicationTypeId != nil {
 		toSerialize["application_type_id"] = o.ApplicationTypeId

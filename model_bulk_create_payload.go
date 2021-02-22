@@ -17,11 +17,11 @@ import (
 
 // BulkCreatePayload struct for BulkCreatePayload
 type BulkCreatePayload struct {
-	// Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically be set based on the name. 
+	// Array of Source objects to create. Only supported fields are name + type, source_type_id will automatically be set based on the `source_type_name`. 
 	Sources *[]BulkCreatePayloadSources `json:"sources,omitempty"`
 	// Array of Endpoint objects to create. The operation looks up the parent source by the `source_name` attribute so the `source_name` must match one of the `source`'s names in the payload. 
 	Endpoints *[]BulkCreatePayloadEndpoints `json:"endpoints,omitempty"`
-	// Array of Application objects to create. The operation looks up the parent Source by the `source_name` attribute so the `source_name` must match one of the `source`'s names in the payload.  application_type_id will be automatically looked up and set by the `type` attribute via regex. 
+	// Array of Application objects to create. The operation looks up the parent Source by the `source_name` attribute so the `source_name` must match one of the `source`'s names in the payload.  application_type_id will be automatically looked up and set by the `application_type_name` attribute via regex. 
 	Applications *[]BulkCreatePayloadApplications `json:"applications,omitempty"`
 	// Array of Authentications to create. This one is a bit more tricky. `resource_type` tells the action where to look for the parent, must be either application/endpoint/source  if the parent is a source, it looks up by name. if the parent is an endpoint, it looks up via host so the hostname must match. if the parent is an application, it looks up via application type so the value must match the application type which matches 
 	Authentications *[]BulkCreatePayloadAuthentications `json:"authentications,omitempty"`
